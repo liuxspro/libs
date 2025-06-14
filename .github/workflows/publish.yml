@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ needs.setup.outputs.packages }}
+        package: ${{ fromJson(needs.setup.outputs.packages) }}
 
     permissions:
       contents: read
