@@ -1,0 +1,16 @@
+{
+  "name": "@liuxspro/webp-to-png",
+  "version": "0.0.3",
+  "license": "MIT",
+  "exports": "./main.ts",
+  "tasks": {
+    "build": "deno run -A src/bundle.ts",
+    "bench": "deno bench --allow-ffi"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  },
+  "publish": {
+    "include": ["README.md", "./src/main.ts", "./src/wasm_webp_to_png.js"]
+  }
+}
