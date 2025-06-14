@@ -15,6 +15,7 @@ jobs:
       - uses: denoland/setup-deno@v2
       - name: List packages
         run: |
+          deno eval 'console.log([...Deno.readDirSync(`./packages`)].map((i) => i.name))'
           echo "packages=$(deno eval 'console.log([...Deno.readDirSync(`./packages`)].map((i) => i.name))')" >> $GITHUB_OUTPUT
 
   publish:
