@@ -5,8 +5,26 @@ on:
       - main
 
 jobs:
-  publish:
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+    steps:
+      - uses: action/checkout@v4
+      - uses: denoland/setup-deno@v2
+      - name: List packages
+        run: |
+          echo "packages=$(deno eval 'console.log([...Deno.readDirSync(`./packages`)].map((i) => i.name))')" >> $GITHUB_OUTPUT
+
+  publish:
+    name: Publish
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ needs.setup.outputs.packages }}
 
     permissions:
       contents: read
@@ -17,5 +35,5 @@ jobs:
 
       - name: Publish package
         run: |
-          cd packages/webp_to_png
+          cd packages/${{ matrix.package }}
           npx jsr publish
