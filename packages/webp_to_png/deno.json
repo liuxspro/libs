@@ -2,7 +2,7 @@
   "name": "@liuxspro/webp-to-png",
   "version": "0.0.3",
   "license": "MIT",
-  "exports": "./main.ts",
+  "exports": "./src/main.ts",
   "tasks": {
     "build": "deno run -A src/bundle.ts",
     "bench": "deno bench --allow-ffi"
