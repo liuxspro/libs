@@ -21,6 +21,11 @@ export const mercator_bbox: [GeoPoint, GeoPoint] = [
   { lon: 180.0, lat: 85.051129 }, // 东北角 (UpperCorner)
 ];
 
+export const world_mercator_bbox: [GeoPoint, GeoPoint] = [
+  { lon: -180.0, lat: -85.08405903 }, // 西南角 (LowerCorner)
+  { lon: 180.0, lat: 85.08405903 }, // 东北角 (UpperCorner)
+];
+
 export class MapLayer {
   wmts_url: string;
   tile_matrix_set: string;
