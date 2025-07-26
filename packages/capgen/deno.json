@@ -1,0 +1,11 @@
+{
+  "name": "@liuxspro/capgen",
+  "version": "0.2.1",
+  "license": "MIT",
+  "exports": "./src/index.ts",
+  "imports": {
+    "@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.38.0",
+    "@std/assert": "jsr:@std/assert@1",
+    "minijinja-js": "npm:minijinja-js@^2.9.0"
+  }
+}
