@@ -1,8 +1,9 @@
-import { array_is_equal } from "./index.ts";
+import { array_is_equal } from "./array.ts";
 
 /** 判断数据是否为 PNG 格式 */
 export function is_png(data: Uint8Array): boolean {
   // https://zh.wikipedia.org/wiki/PNG
+  // deno-fmt-ignore
   const magic_number = new Uint8Array([
     0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
   ]);
