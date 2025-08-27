@@ -3,11 +3,12 @@
  * @param {Uint8Array[]} arrays - 要合并的 Uint8Array 实例数组
  * @returns {Uint8Array} 合并后的 Uint8Array
  * @example
- * // 示例用法：
+ * ```typescript
  * const arr1 = new Uint8Array([1, 2]);
  * const arr2 = new Uint8Array([3, 4]);
  * const merged = mergeUint8Arrays([arr1, arr2]);
  * console.log(merged); // 输出: Uint8Array [1, 2, 3, 4]
+ * ```
  */
 export function mergeUint8Arrays(arrays: Uint8Array[]): Uint8Array {
   // 计算总长度
