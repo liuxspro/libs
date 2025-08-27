@@ -9,7 +9,7 @@
  * encode("Hello World"); // Returns "SGVsbG8gV29ybGQ="
  * ```
  */
-export function encode(content: string) {
+export function encode(content: string): string {
   const encoder = new TextEncoder();
   const data = encoder.encode(content);
   return btoa(data.reduce((sum, arr) => sum + String.fromCharCode(arr), ""));
@@ -26,7 +26,7 @@ export function encode(content: string) {
  * decode("SGVsbG8gV29ybGQ="); // Returns "Hello World"
  * ```
  */
-export function decode(base64_content: string) {
+export function decode(base64_content: string): string {
   return new TextDecoder().decode(
     Uint8Array.from(atob(base64_content), (c) => c.charCodeAt(0)),
   );
