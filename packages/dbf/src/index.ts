@@ -9,8 +9,25 @@ const RECORD_END = Uint8Array.of(0x0D); //字段定义终止符
 
 const EOF = Uint8Array.of(0x1a);
 
+/**
+ * DBF Class，表示一个 DBF 文件实例
+ * @example
+ * ```typescript
+ * const c = new Field("NAME", "C", 4);
+ * const n = new Field("AGE", "N", 3, 0);
+ * const dbf = new DBF([c, n], [["张三", 18], ["李四", 20]]);
+ * const dbfData = dbf.data; // 获取完整的 DBF 文件二进制数据
+ * ```
+ */
 export class DBF {
+  /** DBF 文件中创建时间 */
   create_date: Date;
+
+  /**
+   * 构造一个DBF文件实例
+   * @param {Field[]} fields - 字段定义数组，描述DBF文件的结构
+   * @param {RecordValue[]} [records] - 可选记录数组，包含DBF文件的数据行
+   */
   constructor(
     public fields: Field[],
     public records?: RecordValue[],
@@ -18,11 +35,29 @@ export class DBF {
     this.create_date = new Date();
   }
 
+  /**
+   * 设置DBF文件的创建日期
+   * @param {Date} newdate - 新的创建日期
+   * @returns {DBF} 返回当前实例以支持链式调用
+   */
   set_create_date(newdate: Date): DBF {
     this.create_date = newdate;
     return this;
   }
 
+  /**
+   * 获取DBF文件头的二进制表示
+   * @returns {Uint8Array} 包含文件头信息的二进制数据
+   * @description
+   * 计算并生成符合DBF格式的文件头，包含：
+   * - 版本号 (位置0)
+   * - 更新日期 (位置1-3)
+   * - 记录数量 (位置4-7)
+   * - 文件头长度 (位置8-9)
+   * - 每条记录长度 (位置10-11)
+   * - 字段定义记录
+   * - 记录结束标记
+   */
   get header(): Uint8Array {
     const header_define = new Uint8Array(32);
     // 文件头的总字节数量 = 字段数量 * 32 + 32 + 1
@@ -56,6 +91,13 @@ export class DBF {
     ]);
   }
 
+  /**
+   * 获取完整的DBF文件二进制数据
+   * @returns {Uint8Array} 包含文件头和数据记录的完整DBF文件二进制
+   * @description
+   * 当无记录时返回仅含文件头和EOF标记的空文件
+   * 有记录时返回格式: [文件头|记录1|记录2|...|EOF]
+   */
   get data(): Uint8Array {
     if (!this.records) {
       return mergeUint8Arrays([this.header, EOF]);
