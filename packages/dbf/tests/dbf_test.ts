@@ -1,5 +1,5 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { DBF } from "../src/index.ts";
+import { DBF } from "../src/dbf.ts";
 import { Field } from "../src/field.ts";
 
 // 测试DBF类的基本构造函数和属性
