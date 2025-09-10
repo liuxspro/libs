@@ -1,0 +1,15 @@
+{
+  "name": "@liuxspro/libs",
+  "version": "0.1.0",
+  "license": "MIT",
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "exports": {
+    "./utils": "./src/utils/mod.ts",
+    "./array": "./src/array.ts",
+    "./base64": "./src/base64.ts",
+    "./dbf": "./src/dbf/mod.ts",
+    "./geo": "./src/geo/mod.ts"
+  }
+}
