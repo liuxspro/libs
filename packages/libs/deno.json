@@ -11,5 +11,6 @@
     "./base64": "./src/base64.ts",
     "./dbf": "./src/dbf/mod.ts",
     "./geo": "./src/geo/mod.ts"
-  }
+  },
+  "publish": { "exclude": [".github", "tests"] }
 }
