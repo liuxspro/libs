@@ -321,3 +321,17 @@ Deno.test("DBF - 与Arcmap生成的DBF文件对比", async function () {
   const arcmap = await Deno.readFile("./tests/dbf/data/arcmap_gen.dbf");
   assertEquals(dbf.data, arcmap);
 });
+
+Deno.test("DBF - 空值处理", function () {
+  const dxz = new Field("短整型", "N", 5);
+  const cxz = new Field("长整型", "N", 10);
+  const fdx = new Field("浮点型", "N", 16, 2);
+  const sjd = new Field("双精度", "N", 16, 2);
+  const wb = new Field("文本", "C", 50);
+  const rq = new Field("日期", "D");
+
+  const record_1 = [1, null, 1.23, null, null, null];
+  const dbf = new DBF([dxz, cxz, fdx, sjd, wb, rq], [record_1]);
+  dbf.set_create_date(new Date("2025-9-6"));
+  Deno.writeFileSync("./tests/dbf/data/null_value.dbf", dbf.data);
+});

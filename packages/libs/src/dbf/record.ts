@@ -5,7 +5,7 @@ import { date_to_str, encode_text } from "./utils.ts";
 /**
  * 一条记录，由不同字段类型值组成的数组
  */
-type RecordValue = (string | number | boolean | Date)[];
+export type RecordValue = (string | number | boolean | Date | null)[];
 
 /**
  * Record deleted flag
@@ -13,7 +13,7 @@ type RecordValue = (string | number | boolean | Date)[];
  */
 const RECORD_FLAG = Uint8Array.of(0x20);
 
-export function get_value_info(value: string | number | boolean | Date) {
+export function get_value_info(value: string | number | boolean | Date | null) {
   if (typeof value === "boolean") {
     return { type: "L", value: value ? "T" : "F" };
   }
@@ -26,7 +26,7 @@ export function get_value_info(value: string | number | boolean | Date) {
   if (value instanceof Date) {
     return { type: "D", value: date_to_str(value) };
   }
-  return { type: "C", value: "*" };
+  return { type: "null", value: "" };
 }
 
 /**
@@ -72,7 +72,25 @@ export function record_to_uint8array(fields: Field[], record: RecordValue) {
   const data_array = record.map((value, index) => {
     const field = fields[index];
     const value_info = get_value_info(value);
-    if (field.type !== value_info.type) {
+    if (value_info.type === "null") {
+      // 对于数值型字段，空值用 * 填充
+      if (field.type === "N") {
+        return create_record_data(
+          "*".repeat(field.length as number),
+          field.length as number,
+          "right",
+        );
+        // 对于日期型字段，空值用 00000000 填充
+      } else if (field.type === "D") {
+        return create_record_data("00000000", field.length as number);
+      } else {
+        // 对于其他类型字段，空值用 空格 填充
+        return create_record_data(
+          " ".repeat(field.length as number),
+          field.length as number,
+        );
+      }
+    } else if (field.type !== value_info.type) {
       throw new Error("记录类型与字段定义不符合");
     }
     if (value_info.type === "N") {
