@@ -335,3 +335,21 @@ Deno.test("DBF - 空值处理", function () {
   dbf.set_create_date(new Date("2025-9-6"));
   Deno.writeFileSync("./tests/dbf/data/null_value.dbf", dbf.data);
 });
+
+Deno.test("DBF - 测试边界文件生成", function () {
+  const DKMC = new Field("DKMC", "C", 254);
+  const DKDM = new Field("DKDM", "C", 100);
+  const XZQDM = new Field("XZQDM", "C", 12);
+  const XZQMC = new Field("XZQMC", "C", 100);
+  const YDMJ = new Field("YDMJ", "N", 16, 2);
+  const DH = new Field("DH", "N", 16);
+  const SCRQ = new Field("SCRQ", "D");
+  const SCDW = new Field("SCDW", "C", 254);
+  const BZ = new Field("BZ", "C", 254);
+  const fields = [DKMC, DKDM, XZQDM, XZQMC, YDMJ, DH, SCRQ, SCDW, BZ];
+
+  const record_1 = ["1", "2", "3", "4", 1092.39, 39, null, null, null];
+  const record_2 = ["1", "2", "3", null, null, null, new Date(), null, null];
+  const dbf = new DBF(fields, [record_1, record_2]);
+  Deno.writeFileSync("./tests/dbf/data/边界文件.dbf", dbf.data);
+});
