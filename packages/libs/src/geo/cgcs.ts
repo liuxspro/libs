@@ -32,7 +32,7 @@ export function get_cgcs2000_wkt(zone: CGCS2000_3_Degree_Zone): string {
  * @returns 3度带带号(25~45)
  * @throws {Error} 如果经度不在中国范围内(73.62~135)则抛出错误
  */
-export function get_zone(longitude: number) {
+export function get_zone(longitude: number): number {
   if (longitude < 73.62 || longitude > 135) {
     throw new Error("经度不在中国范围内(73.62~135)");
   }
