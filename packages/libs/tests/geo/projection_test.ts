@@ -16,7 +16,7 @@ const mercator_points: [number, number][] = [
   [-15379710.49166942, 8873329.18203938],
 ];
 
-Deno.test("wgs84_to_mercator", () => {
+Deno.test("Geo: wgs84_to_mercator", () => {
   wgs_points.forEach((point) => {
     const result = wgs84_to_mercator(point);
     const turf = toMercator(point);
@@ -25,7 +25,7 @@ Deno.test("wgs84_to_mercator", () => {
   });
 });
 
-Deno.test("mercator_to_wgs84", () => {
+Deno.test("Geo: mercator_to_wgs84", () => {
   mercator_points.forEach((point) => {
     const result = mercator_to_wgs84(point);
     const turf = toWgs84(point);

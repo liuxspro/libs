@@ -1,9 +1,10 @@
-const CGCS2000_3_Degree_ZONE_LIST: number[] = Array.from(
-  { length: 46 - 25 },
-  (_, index) => index + 25,
-);
+//deno-fmt-ignore
+const CGCS2000_3_Degree_Zone_List = [
+  25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+  44, 45,
+] as const;
 
-type CGCS2000_3_Degree_Zone = (typeof CGCS2000_3_Degree_ZONE_LIST)[number];
+type CGCS2000_3_Degree_Zone = (typeof CGCS2000_3_Degree_Zone_List)[number];
 
 /**
  * 返回带号对应的 ESRI WKT
@@ -22,4 +23,17 @@ export function get_cgcs2000_wkt(zone: CGCS2000_3_Degree_Zone): string {
   const PROJECTION =
     `PROJECTION["Gauss_Kruger"],PARAMETER["False_Easting",${East}.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",${cm}.0],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]`;
   return `PROJCS["${PROJCS_name}",${GEOGCS},${PROJECTION}]`;
+}
+
+/**
+ * 根据经度获取带号(3度带)
+ * @param longitude 经度
+ * @returns 3度带带号(25~45)
+ * @throws {Error} 如果经度不在中国范围内(73.62~135)则抛出错误
+ */
+export function get_zone(longitude: number) {
+  if (longitude < 73.62 || longitude > 135) {
+    throw new Error("经度不在中国范围内(73.62~135)");
+  }
+  return Math.round(longitude / 3);
 }

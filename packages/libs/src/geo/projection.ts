@@ -1,4 +1,4 @@
-type point = [number, number];
+import type { point } from "./types.ts";
 
 /**
  * 将角度转换为弧度。
