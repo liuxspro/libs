@@ -4,7 +4,8 @@ const CGCS2000_3_Degree_Zone_List = [
   44, 45,
 ] as const;
 
-type CGCS2000_3_Degree_Zone = (typeof CGCS2000_3_Degree_Zone_List)[number];
+export type CGCS2000_3_Degree_Zone =
+  (typeof CGCS2000_3_Degree_Zone_List)[number];
 
 /**
  * 返回带号对应的 ESRI WKT
