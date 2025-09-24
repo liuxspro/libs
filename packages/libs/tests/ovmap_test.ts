@@ -9,6 +9,6 @@ Deno.test("ovmap", () => {
     format: "JPG",
   };
   const map = new OVMap(300, "高德地图", url, options);
-  console.log(map);
+  // console.log(map);
   console.log(map.qr_data);
 });
