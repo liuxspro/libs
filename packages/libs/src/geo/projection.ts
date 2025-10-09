@@ -1,22 +1,5 @@
 import type { point } from "./types.ts";
-
-/**
- * 将角度转换为弧度。
- * @param degree 角度值
- * @returns 弧度值
- */
-function degree_to_radius(degree: number): number {
-  return (degree * Math.PI) / 180;
-}
-
-/**
- * 将弧度转换为角度。
- * @param radius 弧度值
- * @returns 角度值
- */
-function radius_to_degree(radius: number): number {
-  return (radius * 180) / Math.PI;
-}
+import { degree_to_radius, radius_to_degree } from "./utils.ts";
 
 /**
  * 将WGS84坐标（经纬度）转换为墨卡托投影坐标。
