@@ -1,7 +1,7 @@
 import type { Field } from "./field.ts";
 import { get_update_date } from "./utils.ts";
 import { record_to_uint8array, type RecordValue } from "./record.ts";
-import { mergeUint8Arrays } from "jsr:@liuxspro/utils@0.1.12/array";
+import { mergeUint8Arrays } from "@liuxspro/libs/array";
 
 const DBF_FILE_VERSION = Uint8Array.of(0x03); // DBF 文件版本号
 const RECORD_END = Uint8Array.of(0x0d); //字段定义终止符
