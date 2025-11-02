@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/webp_to_png", "crates/wasm_webp_to_png"]
+members = ["crates/webp_to_png", "crates/wasm_webp_to_png", "crates/google_earth"]
 
 
 [workspace.dependencies]

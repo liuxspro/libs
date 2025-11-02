@@ -1,0 +1,9 @@
+[package]
+name = "google_earth"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[dev-dependencies]
+file-format = "=0.27.0"
