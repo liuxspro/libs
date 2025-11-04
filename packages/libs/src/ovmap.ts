@@ -91,7 +91,7 @@ export class OVMap {
     this.port = this.url.port || gussing_port;
   }
 
-  get qr_data() {
+  get qr_data(): string {
     const params = new URLSearchParams();
     params.set("t", "37");
     params.set("id", `${this.id}`);
