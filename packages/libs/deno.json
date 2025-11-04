@@ -1,6 +1,6 @@
 {
   "name": "@liuxspro/libs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "tasks": {
     "test-publish": "deno publish --dry-run --allow-dirty"
@@ -11,7 +11,8 @@
     "./base64": "./src/base64.ts",
     "./dbf": "./src/dbf/mod.ts",
     "./filetype": "./src/filetype.ts",
-    "./geo": "./src/geo/mod.ts"
+    "./geo": "./src/geo/mod.ts",
+    "./ovmap": "./src/ovmap.ts"
   },
   "publish": { "exclude": [".github", "tests"] }
 }
