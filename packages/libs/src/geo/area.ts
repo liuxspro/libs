@@ -1,4 +1,4 @@
-import type { point } from "./types.ts";
+import type { Point } from "./types.ts";
 
 /**
  * 使用鞋带公式（有向面积法）计算多边形面积
@@ -21,7 +21,7 @@ import type { point } from "./types.ts";
  * calc_signed_area(rectangle); // 返回 12
  * ```
  */
-export function calc_signed_area(points: point[]): number {
+export function calc_signed_area(points: Point[]): number {
   let area = 0;
   const n = points.length;
 

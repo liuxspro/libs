@@ -1,4 +1,4 @@
-import type { point } from "./types.ts";
+import type { Point } from "./types.ts";
 import { degree_to_radius, radius_to_degree } from "./utils.ts";
 
 /**
@@ -6,7 +6,7 @@ import { degree_to_radius, radius_to_degree } from "./utils.ts";
  * @param coordinate [经度, 纬度]
  * @returns [x, y] 墨卡托投影坐标
  */
-export function wgs84_to_mercator(coordinate: point): point {
+export function wgs84_to_mercator(coordinate: Point): Point {
   // https://en.wikipedia.org/wiki/Mercator_projection
   const [longitude, latitude] = coordinate;
   const R = 6378137;
@@ -21,7 +21,7 @@ export function wgs84_to_mercator(coordinate: point): point {
  * @param coordinate [x, y] 墨卡托投影坐标
  * @returns [经度, 纬度] WGS84坐标
  */
-export function mercator_to_wgs84(coordinate: point): point {
+export function mercator_to_wgs84(coordinate: Point): Point {
   // https://en.wikipedia.org/wiki/Mercator_projection
   const [x, y] = coordinate;
   const R = 6378137;

@@ -1,4 +1,4 @@
-import type { point } from "./types.ts";
+import type { Point } from "./types.ts";
 import { d2r, r2d } from "./utils.ts";
 
 export class XYZ {
@@ -17,7 +17,7 @@ export class XYZ {
    * @remarks
    * 转换公式: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
    */
-  to_lonlat(): point {
+  to_lonlat(): Point {
     const n = Math.pow(2, this.z);
     const lon = (this.x / n) * 360 - 180;
     const lat = r2d(Math.atan(Math.sinh(Math.PI - (this.y / n) * 2 * Math.PI)));
