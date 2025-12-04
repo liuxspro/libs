@@ -54,23 +54,37 @@ export type MultiPolygon = Polygon[];
 export class Ring {
   points: Point[];
   constructor(points: Point[]) {
-    this.points = points;
-    this.check_points_number();
+    // 创建浅拷贝，避免修改原数组
+    this.points = [...points];
     this.ensure_closed();
+    this.check_points_number();
   }
 
-  check_points_number() {
-    if (this.points.length < 3) {
+  private check_points_number(): void {
+    if (this.points.length <= 3) {
       throw new Error(
         `组成环的点数至少要 3 个, 当前只有 ${this.points.length} 个`,
       );
     }
   }
 
-  ensure_closed() {
+  private ensure_closed() {
+    const first_point = this.points[0];
     const last_point = this.points[this.points.length - 1];
-    if (this.points[0] != last_point) {
-      this.points.push(this.points[0]);
+    if (first_point[0] !== last_point[0] || first_point[1] !== last_point[1]) {
+      this.points.push([first_point[0], first_point[1]]);
     }
+  }
+
+  /**
+   * 对环的所有点进行坐标转换
+   * @param transformFn 坐标转换函数，接收一个点并返回转换后的点
+   * @returns 返回新的Ring实例，包含转换后的点
+   */
+  transform<T extends [number, number]>(
+    transformFn: (point: Point) => T,
+  ): Ring {
+    const transformedPoints = this.points.map(transformFn);
+    return new Ring(transformedPoints);
   }
 }
