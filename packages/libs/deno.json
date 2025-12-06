@@ -14,5 +14,10 @@
     "./geo": "./src/geo/mod.ts",
     "./ovmap": "./src/ovmap.ts"
   },
-  "publish": { "exclude": [".github", "tests"] }
+  "publish": { "exclude": [".github", "tests"] },
+  "lint": {
+    "rules": {
+      "exclude": ["no-import-prefix", "no-unversioned-import"]
+    }
+  }
 }
