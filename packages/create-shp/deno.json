@@ -1,0 +1,13 @@
+{
+  "name": "@liuxspro/create-shp",
+  "version": "0.1.0",
+  "license": "MIT",
+  "tasks": { "test-publish": "deno publish --dry-run --allow-dirty" },
+  "exports": "./src/index.ts",
+  "publish": { "exclude": [".github", "tests"] },
+  "imports": {
+    "@liuxspro/libs": "jsr:@liuxspro/libs@^0.1.9",
+    "@mapbox/shp-write": "npm:@mapbox/shp-write@^0.4.3",
+    "jszip": "npm:jszip@^3.10.1"
+  }
+}
