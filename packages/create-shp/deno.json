@@ -5,9 +5,15 @@
   "tasks": { "test-publish": "deno publish --dry-run --allow-dirty" },
   "exports": "./src/index.ts",
   "publish": { "exclude": [".github", "tests"] },
+  "lint": {
+    "rules": {
+      "exclude": ["no-import-prefix", "no-unversioned-import"]
+    }
+  },
   "imports": {
     "@liuxspro/libs": "jsr:@liuxspro/libs@^0.1.9",
     "@mapbox/shp-write": "npm:@mapbox/shp-write@^0.4.3",
-    "jszip": "npm:jszip@^3.10.1"
+    "jszip": "npm:jszip@^3.10.1",
+    "papaparse": "npm:papaparse@^5.5.3"
   }
 }
