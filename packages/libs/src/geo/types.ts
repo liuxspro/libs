@@ -1,3 +1,4 @@
+import { calc_signed_area } from "./area.ts";
 /**
  * 表示地理坐标点的数据类型
  *
@@ -103,6 +104,41 @@ export class Ring {
   }
 
   /**
+   * 计算环的有向面积
+   *
+   * 使用签名面积公式计算环的面积，面积符号表示环的方向：
+   * - 正面积表示逆时针方向（外环）
+   * - 负面积表示顺时针方向（内环）
+   * @returns 环的有向面积
+   */
+  get_area(): number {
+    return calc_signed_area(this.points);
+  }
+  /**
+   * 判断环是否为外环
+   *
+   * 根据环的面积符号判断
+   * @returns {boolean} 如果环为外环则返回 true，否则返回 false
+   */
+  is_outer(): boolean {
+    return this.get_area() > 0;
+  }
+
+  /**
+   * 确保环为外环（逆时针方向）
+   *
+   * 如果当前环为顺时针方向（内环），则反转点数组以确保为逆时针方向（外环）
+   */
+  ensure_outer(): Ring {
+    if (!this.is_outer()) {
+      const reversed = this.points.slice().reverse();
+      return new Ring(reversed);
+    } else {
+      return this;
+    }
+  }
+
+  /**
    * 将环转换为多边形
    *
    * 一个多边形由一个外环和零个或多个内环组成，此方法创建只包含当前环的多边形
@@ -138,7 +174,7 @@ export class Ring {
 }
 
 /**
- * 表示一个地理多边形区域
+ * 表示一个地理多边形区域 Polygon
  *
  * 一个多边形由至少一个外环和零个或多个内环（孔洞）组成。外环定义多边形的边界，
  * 内环定义多边形内部的孔洞。外环需要顺时针方向，内环需要逆时针方向（按约定）。
@@ -226,6 +262,33 @@ export class Polygon {
       ring.transform(transformFn)
     );
     return new Polygon(transformedRings);
+  }
+
+  /**
+   * 将多边形转换为多多边形
+   *
+   * 创建一个只包含当前多边形的 MultiPolygon 实例
+   * @returns 包含当前多边形的新 MultiPolygon 实例
+   */
+  to_multipolygon(): MultiPolygon {
+    return new MultiPolygon([this]);
+  }
+
+  /**
+   * 计算多边形的总面积
+   *
+   * 多边形的总面积等于外环面积减去所有内环面积之和。
+   * @returns 多边形的总面积
+   */
+  get_area(): number {
+    let totalArea = 0;
+    if (this.rings.length === 0) {
+      return 0;
+    }
+    for (const ring of this.rings) {
+      totalArea += ring.get_area();
+    }
+    return totalArea;
   }
 }
 
@@ -334,5 +397,19 @@ export class MultiPolygon {
       polygon.transform(transformFn)
     );
     return new MultiPolygon(transformedPolygons);
+  }
+
+  /**
+   * 计算多多边形的总面积
+   *
+   * 多多边形的总面积是其所有组成多边形面积的总和。
+   * @returns 多多边形的总面积
+   */
+  get_area(): number {
+    let totalArea = 0;
+    for (const polygon of this.polygons) {
+      totalArea += polygon.get_area();
+    }
+    return totalArea;
   }
 }
