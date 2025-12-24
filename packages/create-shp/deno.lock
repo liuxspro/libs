@@ -1,7 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@liuxspro/libs@~0.1.9": "0.1.9",
+    "jsr:@liuxspro/libs@~0.1.11": "0.1.11",
     "jsr:@std/assert@*": "1.0.16",
     "jsr:@std/fs@*": "1.0.18",
     "jsr:@std/internal@^1.0.12": "1.0.12",
@@ -12,8 +12,8 @@
     "npm:papaparse@^5.5.3": "5.5.3"
   },
   "jsr": {
-    "@liuxspro/libs@0.1.9": {
-      "integrity": "75b06a61ee9028c9152f5af4cb5695feccaae433b75fbb0d9cc743a2e58bf26a"
+    "@liuxspro/libs@0.1.11": {
+      "integrity": "13e7b17b0939666c86296456bef0141b41df943b0070c7002685707086df959c"
     },
     "@std/assert@1.0.16": {
       "integrity": "6a7272ed1eaa77defe76e5ff63ca705d9c495077e2d5fd0126d2b53fc5bd6532",
@@ -121,7 +121,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@liuxspro/libs@~0.1.9",
+      "jsr:@liuxspro/libs@~0.1.11",
       "npm:@mapbox/shp-write@~0.4.3",
       "npm:jszip@^3.10.1",
       "npm:papaparse@^5.5.3"
