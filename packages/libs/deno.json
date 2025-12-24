@@ -1,6 +1,6 @@
 {
   "name": "@liuxspro/libs",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "license": "MIT",
   "tasks": {
     "test-publish": "deno publish --dry-run --allow-dirty"
