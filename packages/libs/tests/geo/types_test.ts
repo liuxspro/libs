@@ -58,3 +58,33 @@ Deno.test("Geo: types", () => {
   assertEquals(mpolygon.polygons.length, 2);
   assertEquals(polygon.coordinates[0], ring.points);
 });
+
+Deno.test("Geo: Polygon 环方向检查", () => {
+  // 按顺时针排列的环
+  const ring_clockwise = [
+    [39547228.491, 3797916.479],
+    [39547246.449, 3798076.324],
+    [39547399.598, 3798062.844],
+    [39547381.907, 3797655.744],
+    [39546951.091, 3797694.864],
+    [39546979.97, 3797942.755],
+    [39547228.491, 3797916.479],
+  ];
+  const ring_counterclockwise = ring_clockwise.toReversed();
+  // 孔洞 逆时针排列
+  const hole_counterclockwise_points = [
+    [39547163.999907895922661, 3797857.179684211034328],
+    [39547156.805776312947273, 3797784.684973684605211],
+    [39547264.717749997973442, 3797777.490842105820775],
+    [39547270.805092103779316, 3797848.878763158340007],
+    [39547163.999907895922661, 3797857.179684211034328],
+  ];
+  const ring1 = new Ring(ring_clockwise); // 顺时针环
+  const ring2 = new Ring(ring_counterclockwise); // 逆时针环
+  const hole_counterclockwise = new Ring(hole_counterclockwise_points); // 逆时针孔洞
+  const hole_clockwise = new Ring(hole_counterclockwise_points.toReversed()); // 顺时针孔洞
+  const m1 = new Polygon([ring1, hole_counterclockwise]); // 顺时针环 + 逆时针空洞 (ESRI 标准)
+  const m2 = new Polygon([ring2, hole_clockwise]); // 逆时针环 + 顺时针空洞 (Geojson 标准)
+  assertEquals(m1, m2.ensure_esri_standard());
+  assertEquals(m1.ensure_geojson_standard(), m2);
+});

@@ -115,7 +115,7 @@ export class Ring {
     return calc_signed_area(this.points);
   }
   /**
-   * 判断环是否为外环
+   * 判断环是否为外环(逆时针方向) GeoJSON标准
    *
    * 根据环的面积符号判断
    * @returns {boolean} 如果环为外环则返回 true，否则返回 false
@@ -125,14 +125,73 @@ export class Ring {
   }
 
   /**
-   * 确保环为外环（逆时针方向）
+   * 判断环是否为顺时针方向
+   * @returns {boolean} 如果环为**顺时针方向**则返回 true，否则返回 false
+   */
+  is_clockwise(): boolean {
+    return this.get_area() < 0;
+  }
+
+  /**
+   * 获取当前环的反向环
+   * @returns 新的 Ring 实例，点顺序与当前环相反
+   */
+  to_reversed(): Ring {
+    const reversed = this.points.slice().reverse();
+    return new Ring(reversed);
+  }
+
+  /**
+   * 确保环为外环（逆时针方向）GeoJSON标准
    *
    * 如果当前环为顺时针方向（内环），则反转点数组以确保为逆时针方向（外环）
    */
   ensure_outer(): Ring {
     if (!this.is_outer()) {
-      const reversed = this.points.slice().reverse();
-      return new Ring(reversed);
+      return this.to_reversed();
+    } else {
+      return this;
+    }
+  }
+
+  /**
+   * 确保环为内环（顺时针方向）GeoJSON标准
+   *
+   * 如果当前环为逆时针方向（外环），则反转点数组以确保为顺时针方向（内环）
+   */
+  ensure_inner(): Ring {
+    if (this.is_outer()) {
+      return this.to_reversed();
+    } else {
+      return this;
+    }
+  }
+
+  /**
+   * 确保环为 ESRI Shapefile 标准的外环（顺时针方向）
+   *
+   * 如果当前环为逆时针方向（外环），则反转点数组以确保为顺时针方向（外环）
+   * @returns {Ring} 确保为顺时针方向的环实例
+   */
+  ensure_esri_outer(): Ring {
+    // 如果不是顺时针方向，则反转点数组
+    if (!this.is_clockwise()) {
+      return this.to_reversed();
+    } else {
+      return this;
+    }
+  }
+
+  /**
+   * 确保环为 ESRI Shapefile 标准的内环（逆时针方向）
+   *
+   * 如果当前环为顺时针方向（外环），则反转点数组以确保为逆时针方向（内环）
+   * @returns {Ring} 确保为逆时针方向的环实例
+   */
+  ensure_esri_inner(): Ring {
+    // 如果是逆时针方向，则反转点数组
+    if (this.is_clockwise()) {
+      return this.to_reversed();
     } else {
       return this;
     }
@@ -290,6 +349,48 @@ export class Polygon {
     }
     return totalArea;
   }
+
+  /**
+   * 确保多边形符合 GeoJSON 标准
+   *
+   * GeoJSON 标准要求外环为逆时针方向，内环为顺时针方向。
+   * @returns
+   */
+  ensure_geojson_standard(): Polygon {
+    const length = this.rings.length;
+    if (length === 1) {
+      const ring = this.rings[0];
+      return new Polygon([ring.ensure_outer()]);
+    } else {
+      const first_ring = this.rings[0];
+      const new_first_ring = first_ring.ensure_outer();
+      const other_rings = this.rings.slice(1).map((ring) =>
+        ring.ensure_inner()
+      );
+      return new Polygon([new_first_ring, ...other_rings]);
+    }
+  }
+
+  /**
+   * 确保多边形符合 ESRI Shapefile 标准
+   *
+   * ESRI Shapefile 标准要求外环为顺时针方向，内环为逆时针方向。
+   * @returns
+   */
+  ensure_esri_standard(): Polygon {
+    const length = this.rings.length;
+    if (length === 1) {
+      const ring = this.rings[0];
+      return new Polygon([ring.ensure_esri_outer()]);
+    } else {
+      const first_ring = this.rings[0];
+      const new_first_ring = first_ring.ensure_esri_outer();
+      const other_rings = this.rings.slice(1).map((ring) =>
+        ring.ensure_esri_inner()
+      );
+      return new Polygon([new_first_ring, ...other_rings]);
+    }
+  }
 }
 
 /**
@@ -411,5 +512,30 @@ export class MultiPolygon {
       totalArea += polygon.get_area();
     }
     return totalArea;
+  }
+  /**
+   * 确保多多边形符合 GeoJSON 标准
+   *
+   * GeoJSON 标准要求外环为逆时针方向，内环为顺时针方向。
+   * @returns {MultiPolygon} 符合 GeoJSON 标准的多多边形实例
+   */
+  ensure_geojson_standard(): MultiPolygon {
+    const new_polygons = this.polygons.map((polygon) =>
+      polygon.ensure_geojson_standard()
+    );
+    return new MultiPolygon(new_polygons);
+  }
+
+  /**
+   * 确保多多边形符合 ESRI Shapefile 标准
+   *
+   * ESRI Shapefile 标准要求外环为顺时针方向，内环为逆时针方向。
+   * @returns {MultiPolygon} 符合 ESRI 标准的多多边形实例
+   */
+  ensure_esri_standard(): MultiPolygon {
+    const new_polygons = this.polygons.map((polygon) =>
+      polygon.ensure_esri_standard()
+    );
+    return new MultiPolygon(new_polygons);
   }
 }
