@@ -2,6 +2,8 @@ import type { MultiPolygon } from "@liuxspro/libs/geo";
 import { write } from "@mapbox/shp-write";
 import JSZip from "jszip";
 
+type NormalField = Record<string, string | number>;
+
 type ShpWriteResult = {
   shp: DataView;
   shx: DataView;
@@ -10,16 +12,17 @@ type ShpWriteResult = {
 };
 
 /**
- * 根据多多边形和字段对象创建shp文件
+ * 根据多多边形和字段对象创建 shp 文件
+ * 已保证多多边形环方向符合 Esri 标准
  * @param { MultiPolygon } multi_polygon
  * @param fields
  * @returns {Promise<ShpWriteResult>}
  */
 export function create_shp(
   multi_polygon: MultiPolygon,
-  fields: Record<string, string | number> = {},
+  fields: NormalField = {},
 ): Promise<ShpWriteResult> {
-  const coords = multi_polygon.coordinates;
+  const coords = multi_polygon.ensure_esri_standard().coordinates;
   return new Promise((resolve, reject) => {
     write([fields], "POLYGON", [coords], (err, result) => {
       if (err) {
@@ -33,7 +36,7 @@ export function create_shp(
 
 export async function create_shp_zip(
   multi_polygon: MultiPolygon,
-  fields: Record<string, string | number> = {},
+  fields: NormalField = {},
   prj: string,
   filename: string,
 ): Promise<Uint8Array> {
