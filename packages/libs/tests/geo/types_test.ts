@@ -51,6 +51,7 @@ Deno.test("Geo: types", () => {
   assertEquals(polygon2.to_multipolygon().get_area(), 222.5);
 
   const mpolygon = new MultiPolygon([polygon, new Polygon([ring4])]);
+  // console.log(JSON.stringify(ring4.to_multipolygon().to_geojson()));
   const trans_polygon = polygon.transform(t);
   const trans_mpolygon = mpolygon.transform(t);
   assertEquals(trans_polygon.rings[0].points[0][0], 11);

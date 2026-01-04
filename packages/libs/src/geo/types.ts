@@ -1,4 +1,21 @@
 import { calc_signed_area } from "./area.ts";
+
+interface GeoJSONFeatureCollection {
+  type: "FeatureCollection";
+  features: GeoJSONFeature[];
+}
+
+interface GeoJSONFeature {
+  type: "Feature";
+  properties: Record<string, string | number>;
+  geometry: MultiPolygonGeometry;
+}
+
+interface MultiPolygonGeometry {
+  type: "MultiPolygon";
+  coordinates: Point[][][];
+}
+
 /**
  * 表示地理坐标点的数据类型
  *
@@ -264,7 +281,7 @@ export class Polygon {
    * ```
    */
   constructor(rings: Ring[]) {
-    this.rings = rings;
+    this.rings = [...rings];
   }
 
   /**
@@ -428,7 +445,7 @@ export class MultiPolygon {
    * ```
    */
   constructor(polygons: Polygon[]) {
-    this.polygons = polygons;
+    this.polygons = [...polygons];
   }
 
   /**
@@ -537,5 +554,21 @@ export class MultiPolygon {
       polygon.ensure_esri_standard()
     );
     return new MultiPolygon(new_polygons);
+  }
+
+  to_geojson(): GeoJSONFeatureCollection {
+    return {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "MultiPolygon",
+            coordinates: this.coordinates,
+          },
+        },
+      ],
+    };
   }
 }
