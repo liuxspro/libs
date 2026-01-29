@@ -43,9 +43,9 @@ export async function create_shp_zip(
   const shpfile = await create_shp(multi_polygon, fields);
   const zip = new JSZip();
   const zip_target = zip.folder(filename);
-  zip_target?.file(`${filename}.shp`, shpfile.shp.buffer);
-  zip_target?.file(`${filename}.shx`, shpfile.shx.buffer);
-  zip_target?.file(`${filename}.dbf`, shpfile.dbf.buffer);
+  zip_target?.file(`${filename}.shp`, shpfile.shp.buffer as ArrayBuffer);
+  zip_target?.file(`${filename}.shx`, shpfile.shx.buffer as ArrayBuffer);
+  zip_target?.file(`${filename}.dbf`, shpfile.dbf.buffer as ArrayBuffer);
   zip_target?.file(`${filename}.cpg`, "UTF-8");
   zip_target?.file(`${filename}.prj`, prj);
   return zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });

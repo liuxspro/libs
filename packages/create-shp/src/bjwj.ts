@@ -22,9 +22,9 @@ export async function create_bjwj(
   const dbf = create_dbf(fields);
   const zip = new JSZip();
   const zip_target = zip.folder(filename);
-  zip_target?.file(`${filename}.shp`, shpfile.shp.buffer);
-  zip_target?.file(`${filename}.shx`, shpfile.shx.buffer);
-  zip_target?.file(`${filename}.dbf`, dbf.buffer);
+  zip_target?.file(`${filename}.shp`, shpfile.shp.buffer as ArrayBuffer);
+  zip_target?.file(`${filename}.shx`, shpfile.shx.buffer as ArrayBuffer);
+  zip_target?.file(`${filename}.dbf`, dbf);
   zip_target?.file(`${filename}.cpg`, "UTF-8");
   zip_target?.file(`${filename}.prj`, prj);
   return zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });
