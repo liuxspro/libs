@@ -3,7 +3,7 @@ import { d2r, r2d } from "./utils.ts";
 
 export class XYZ {
   /**
-   * 构造函数，创建一个XYZ坐标点
+   * 构造函数，创建一个XYZ坐标点(墨卡托投影)
    * @param x - X坐标（瓦片列索引）
    * @param y - Y坐标（瓦片行索引）
    * @param z - 缩放级别（zoom level）
@@ -22,6 +22,26 @@ export class XYZ {
     const lon = (this.x / n) * 360 - 180;
     const lat = r2d(Math.atan(Math.sinh(Math.PI - (this.y / n) * 2 * Math.PI)));
     return [lon, lat];
+  }
+
+  /**
+   * 将 XYZ 瓦片坐标转换为 Bing Quadkey
+   * @returns {string} Bing Quadkey
+   */
+  to_bing_quadkey(): string {
+    // 缩放级别0的quadkey为空字符串
+    if (this.z === 0) {
+      return "";
+    }
+    let quadkey = "";
+    for (let i = this.z; i > 0; i--) {
+      let digit = 0;
+      const mask = 1 << (i - 1);
+      if ((this.x & mask) !== 0) digit += 1;
+      if ((this.y & mask) !== 0) digit += 2;
+      quadkey += digit;
+    }
+    return quadkey;
   }
 
   /**
