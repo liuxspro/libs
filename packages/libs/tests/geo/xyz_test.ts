@@ -10,6 +10,7 @@ Deno.test("Geo: Class XYZ", () => {
   assertEquals(xyz.to_lonlat(), lonlat);
   assertEquals(XYZ.from_lonlat(...lonlat, z), xyz);
   assertEquals(xyz.to_bing_quadkey(), "13210211");
+  assertEquals(xyz.to_ge_quadkey(), "012023022");
   assertEquals(new XYZ(2, 2, 2).to_bing_quadkey(), "30");
 
   const xyz2 = XYZ.from_xyz(469, 171, 9);

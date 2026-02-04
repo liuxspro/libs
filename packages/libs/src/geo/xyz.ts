@@ -1,5 +1,7 @@
 import type { Point } from "./types.ts";
 import { d2r, r2d } from "./utils.ts";
+import { xyz_to_quad as to_bing_quad } from "./quad/BingQuad.ts";
+import { xyz_to_quad as to_ge_quad } from "./quad/googleEarthQuad.ts";
 
 export class XYZ {
   /**
@@ -29,19 +31,15 @@ export class XYZ {
    * @returns {string} Bing Quadkey
    */
   to_bing_quadkey(): string {
-    // 缩放级别0的quadkey为空字符串
-    if (this.z === 0) {
-      return "";
-    }
-    let quadkey = "";
-    for (let i = this.z; i > 0; i--) {
-      let digit = 0;
-      const mask = 1 << (i - 1);
-      if ((this.x & mask) !== 0) digit += 1;
-      if ((this.y & mask) !== 0) digit += 2;
-      quadkey += digit;
-    }
-    return quadkey;
+    return to_bing_quad(this.x, this.y, this.z);
+  }
+
+  /**
+   * 将 XYZ 瓦片坐标转换为 Google Earth Quadkey
+   * @returns {string} Google Earth Quadkey
+   */
+  to_ge_quadkey(): string {
+    return to_ge_quad(this.x, this.y, this.z);
   }
 
   /**
