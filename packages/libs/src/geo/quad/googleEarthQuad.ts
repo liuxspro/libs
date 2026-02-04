@@ -110,8 +110,7 @@ export function xyz_to_quad(x: number, y: number, z: number): string {
  * @returns {TileXY} XYZ
  */
 export function quad_to_xyz(quad: string): TileXY {
-  const length = quad.length;
-  quad = quad.slice(1, length);
+  quad = quad.slice(1);
   const { x, y, level } = quadKeyToTileXY(quad);
   return {
     x: x,
