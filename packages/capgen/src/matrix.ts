@@ -1,4 +1,4 @@
-import { cloneDeep } from "@es-toolkit/es-toolkit";
+// import { cloneDeep } from "@es-toolkit/es-toolkit";
 
 interface TileMatrix {
   identifier: string;
@@ -86,16 +86,21 @@ export class TileMatrixSet {
    * Updates the zoom level range and regenerates tile matrices
    * @param {number} min_zoom - New minimum zoom level
    * @param {number} max_zoom - New maximum zoom level
-   * @returns {this} Returns the instance for method chaining
+   * @returns {TileMatrixSet} Returns a new TileMatrixSet instance with updated zoom levels and tile matrices
    */
-  setZoom(min_zoom: number, max_zoom: number): this {
-    this.min_zoom = min_zoom;
-    this.max_zoom = max_zoom;
-    this.tile_matrixs = this.generateMatrixs(min_zoom, max_zoom);
+  setZoom(min_zoom: number, max_zoom: number): TileMatrixSet {
+    let new_id = this.id;
     if (min_zoom != 0 || max_zoom != 18) {
-      this.setId(`${this.id}F${min_zoom}T${max_zoom}`);
+      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
     }
-    return this;
+    return new TileMatrixSet(
+      this.title,
+      new_id,
+      this.supported_crs,
+      this.wellknown_scale_set,
+      min_zoom,
+      max_zoom,
+    );
   }
   /**
    * Set identifier of tilematrix set
@@ -111,8 +116,19 @@ export class TileMatrixSet {
     return generate_tile_matrixs(min, max);
   }
 
-  clone(): this {
-    return cloneDeep(this);
+  // clone(): this {
+  //   return cloneDeep(this);
+  // }
+  clone(): TileMatrixSet {
+    const cloned = new TileMatrixSet(
+      this.title,
+      this.id,
+      this.supported_crs,
+      this.wellknown_scale_set,
+      this.min_zoom,
+      this.max_zoom,
+    );
+    return cloned;
   }
 }
 
