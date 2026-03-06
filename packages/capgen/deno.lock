@@ -1,11 +1,15 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@es-toolkit/es-toolkit@^1.45.1": "1.45.1",
     "jsr:@std/assert@1": "1.0.16",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "npm:minijinja-js@^2.15.1": "2.15.1"
   },
   "jsr": {
+    "@es-toolkit/es-toolkit@1.45.1": {
+      "integrity": "fcfce61ab4ac4db2fd45841ac86f6101b271d4e3a094dc7edbb14fd41289471b"
+    },
     "@std/assert@1.0.16": {
       "integrity": "6a7272ed1eaa77defe76e5ff63ca705d9c495077e2d5fd0126d2b53fc5bd6532",
       "dependencies": [
@@ -23,6 +27,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@es-toolkit/es-toolkit@^1.45.1",
       "npm:minijinja-js@^2.15.1"
     ]
   }

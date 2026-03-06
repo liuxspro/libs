@@ -1,9 +1,10 @@
 {
   "name": "@liuxspro/capgen",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
   "exports": "./src/index.ts",
   "imports": {
+    "es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.45.1",
     "minijinja-js": "npm:minijinja-js@^2.15.1"
   },
   "lint": {
