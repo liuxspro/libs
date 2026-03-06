@@ -1,6 +1,13 @@
 import type { Fields } from "../src/dbf.ts";
 import { create_bjwj } from "../src/bjwj.ts";
 import { Ring } from "@liuxspro/libs/geo";
+
+try {
+  Deno.mkdirSync("./tests/data");
+} catch (e) {
+  console.log(e);
+}
+
 Deno.test("create_bjwj 创建边界文件", async function () {
   const record: Fields = {
     "DKMC": "1",
