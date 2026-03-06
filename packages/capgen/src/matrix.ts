@@ -1,3 +1,5 @@
+import { cloneDeep } from "es-toolkit";
+
 interface TileMatrix {
   identifier: string;
   scale_denominator: number;
@@ -114,19 +116,8 @@ export class TileMatrixSet {
     return generate_tile_matrixs(min, max);
   }
 
-  // clone(): this {
-  //   return cloneDeep(this);
-  // }
-  clone(): TileMatrixSet {
-    const cloned = new TileMatrixSet(
-      this.title,
-      this.id,
-      this.supported_crs,
-      this.wellknown_scale_set,
-      this.min_zoom,
-      this.max_zoom,
-    );
-    return cloned;
+  clone(): this {
+    return cloneDeep(this);
   }
 }
 
@@ -150,6 +141,21 @@ export class TileMatrixSetHd extends TileMatrixSet {
       hdMode: true,
     });
   }
+
+  override setZoom(min_zoom: number, max_zoom: number): TileMatrixSetHd {
+    let new_id = this.id;
+    if (min_zoom != 0 || max_zoom != 18) {
+      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
+    }
+    return new TileMatrixSetHd(
+      this.title,
+      new_id,
+      this.supported_crs,
+      this.wellknown_scale_set,
+      min_zoom,
+      max_zoom,
+    );
+  }
 }
 
 export class CRS84TileMatrixSet extends TileMatrixSet {
@@ -167,6 +173,21 @@ export class CRS84TileMatrixSet extends TileMatrixSet {
 
   protected override generateMatrixs(min: number, max: number): TileMatrix[] {
     return generate_tile_matrixs(min, max, { "type": "4326" });
+  }
+
+  override setZoom(min_zoom: number, max_zoom: number): CRS84TileMatrixSet {
+    let new_id = this.id;
+    if (min_zoom != 0 || max_zoom != 18) {
+      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
+    }
+    return new CRS84TileMatrixSet(
+      this.title,
+      new_id,
+      this.supported_crs,
+      this.wellknown_scale_set,
+      min_zoom,
+      max_zoom,
+    );
   }
 }
 
@@ -191,6 +212,21 @@ export class CRS84LessTileMatrixSet extends CRS84TileMatrixSet {
       return t;
     });
     return matrix_less;
+  }
+
+  override setZoom(min_zoom: number, max_zoom: number): CRS84LessTileMatrixSet {
+    let new_id = this.id;
+    if (min_zoom != 0 || max_zoom != 18) {
+      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
+    }
+    return new CRS84LessTileMatrixSet(
+      this.title,
+      new_id,
+      this.supported_crs,
+      this.wellknown_scale_set,
+      min_zoom,
+      max_zoom,
+    );
   }
 }
 
