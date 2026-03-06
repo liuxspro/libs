@@ -35,6 +35,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Test package
+        run: |
+          cd packages/${{ matrix.package }}
+          deno test -A
+
       - name: Publish package
         run: |
           cd packages/${{ matrix.package }}
