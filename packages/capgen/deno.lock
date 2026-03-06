@@ -1,37 +1,29 @@
 {
-  "version": "4",
+  "version": "5",
   "specifiers": {
-    "jsr:@es-toolkit/es-toolkit@*": "1.38.0",
-    "jsr:@es-toolkit/es-toolkit@^1.38.0": "1.38.0",
-    "jsr:@std/assert@1": "1.0.12",
-    "jsr:@std/internal@^1.0.6": "1.0.6",
-    "npm:minijinja-js@*": "2.9.0",
-    "npm:minijinja-js@^2.9.0": "2.9.0"
+    "jsr:@std/assert@1": "1.0.16",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
+    "npm:minijinja-js@^2.15.1": "2.15.1"
   },
   "jsr": {
-    "@es-toolkit/es-toolkit@1.38.0": {
-      "integrity": "7a3fa3bbe873116ec37ed68ef1df6b8ec3d89bac56edd354b7d12ff8cc0d5a0a"
-    },
-    "@std/assert@1.0.12": {
-      "integrity": "08009f0926dda9cbd8bef3a35d3b6a4b964b0ab5c3e140a4e0351fbf34af5b9a",
+    "@std/assert@1.0.16": {
+      "integrity": "6a7272ed1eaa77defe76e5ff63ca705d9c495077e2d5fd0126d2b53fc5bd6532",
       "dependencies": [
         "jsr:@std/internal"
       ]
     },
-    "@std/internal@1.0.6": {
-      "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
     }
   },
   "npm": {
-    "minijinja-js@2.9.0": {
-      "integrity": "sha512-NDrwVXH5c+VfA41LrmINjlKUY+udSUAVSRjafyu0SiRkKJbczceR7DJK17UToZ59zc61dEroH78tesEYDLmegQ=="
+    "minijinja-js@2.15.1": {
+      "integrity": "sha512-I+fGgYYDh/Io1kJ1YSD1Mc9sdlK4Fdm6vHeV0qLY12684+RN3GBy9KFmykhN1fY4FGXyqKteBMDeSKkynuC79A=="
     }
   },
   "workspace": {
     "dependencies": [
-      "jsr:@es-toolkit/es-toolkit@^1.38.0",
-      "jsr:@std/assert@1",
-      "npm:minijinja-js@^2.9.0"
+      "npm:minijinja-js@^2.15.1"
     ]
   }
 }
