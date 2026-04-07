@@ -1,0 +1,39 @@
+<Capabilities xmlns="http://www.opengis.net/wmts/1.0" 
+  xmlns:ows="http://www.opengis.net/ows/1.1"
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:gml="http://www.opengis.net/gml"
+  xsi:schemaLocation="http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd"
+  version="1.0.0">
+  <ows:ServiceIdentification>
+    <ows:Title>{{ service.title }}</ows:Title>
+    <ows:Abstract>{{ service.abstract_ }}</ows:Abstract>
+    <ows:Keywords>
+      <ows:Keyword>ESRI</ows:Keyword>
+    </ows:Keywords>
+    <ows:ServiceType>OGC WMTS</ows:ServiceType>
+    <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+    <ows:Fees>none</ows:Fees>
+    <ows:AccessConstraints>none</ows:AccessConstraints>
+  </ows:ServiceIdentification>
+  <Contents>
+    <Layer></Layer>
+    <TileMatrixSet>
+      <ows:Title>{{ title }}</ows:Title>
+      <ows:Identifier>{{ identifier }}</ows:Identifier>
+      <ows:SupportedCRS>{{ supported_crs }}</ows:SupportedCRS>
+      <WellKnownScaleSet>{{ wellknown_scale_set }}</WellKnownScaleSet>
+      {% for tm in tile_matrixs -%}
+      <TileMatrix>
+        <ows:Identifier>{{ tm.identifier }}</ows:Identifier>
+        <ScaleDenominator>{{ tm.scale_denominator }}</ScaleDenominator>
+        <TopLeftCorner>{{ tm.top_left_corner.x }} {{ tm.top_left_corner.y }}</TopLeftCorner>
+        <TileWidth>{{ tm.tile_width }}</TileWidth>
+        <TileHeight>{{ tm.tile_height }}</TileHeight>
+        <MatrixWidth>{{ tm.matrix_width }}</MatrixWidth>
+        <MatrixHeight>{{ tm.matrix_height }}</MatrixHeight>
+      </TileMatrix>
+      {% endfor %}
+    </TileMatrixSet>
+  </Contents>
+</Capabilities>
