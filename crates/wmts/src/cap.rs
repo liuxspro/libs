@@ -1,4 +1,5 @@
-use super::matrix::TileMatrixSet;
+use crate::layer::Layer;
+use crate::matrix::TileMatrixSet;
 use minijinja::Environment;
 use serde::Serialize;
 
@@ -6,16 +7,6 @@ use serde::Serialize;
 pub struct Service {
     pub title: String,
     pub abstract_: String,
-}
-
-#[derive(Serialize)]
-pub struct Layer {
-    pub title: String,
-    pub abstract_: String,
-    pub id: String,
-    pub tile_matrix_set_link: String,
-    pub url: String,
-    pub tile_matrix_set: TileMatrixSet,
 }
 
 pub struct Capabilities {
