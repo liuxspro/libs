@@ -17,7 +17,23 @@
     <ows:AccessConstraints>none</ows:AccessConstraints>
   </ows:ServiceIdentification>
   <Contents>
-    <Layer></Layer>
+    <Layer>
+      <ows:Title>{{ layer.title }}</ows:Title>
+      <ows:Abstract>{{ layer.abstract_ }}</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-180 -85.051129</ows:LowerCorner>
+        <ows:UpperCorner>180 85.051129</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <ows:Identifier>carto_dark</ows:Identifier>
+      <Style>
+        <ows:Identifier>default</ows:Identifier>
+      </Style>
+      <Format>image/png</Format>
+      <TileMatrixSetLink>
+        <TileMatrixSet>{{ layer.tile_matrix_set.identifier }}</TileMatrixSet>
+      </TileMatrixSetLink>
+      <ResourceURL format="image/png" resourceType="tile" template="{{ layer.transformed_url() }}"/>
+    </Layer>
     <TileMatrixSet>
       <ows:Title>{{ title }}</ows:Title>
       <ows:Identifier>{{ identifier }}</ows:Identifier>
