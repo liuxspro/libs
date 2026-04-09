@@ -17,6 +17,7 @@
     <ows:AccessConstraints>none</ows:AccessConstraints>
   </ows:ServiceIdentification>
   <Contents>
+    {% for layer in layers %}
     <Layer>
       <ows:Title>{{ layer.title }}</ows:Title>
       <ows:Abstract>{{ layer.abstract_ }}</ows:Abstract>
@@ -32,14 +33,16 @@
       <TileMatrixSetLink>
         <TileMatrixSet>{{ layer.tile_matrix_set.identifier }}</TileMatrixSet>
       </TileMatrixSetLink>
-      <ResourceURL format="image/png" resourceType="tile" template="{{ layer.transformed_url() }}"/>
+      <ResourceURL format="image/png" resourceType="tile" template="{{ layer.transformed_url }}"/>
     </Layer>
+    {% endfor %}
+    {% for tile_matrix_set in tile_matrix_sets %}
     <TileMatrixSet>
-      <ows:Title>{{ title }}</ows:Title>
-      <ows:Identifier>{{ identifier }}</ows:Identifier>
-      <ows:SupportedCRS>{{ supported_crs }}</ows:SupportedCRS>
-      <WellKnownScaleSet>{{ wellknown_scale_set }}</WellKnownScaleSet>
-      {% for tm in tile_matrixs -%}
+      <ows:Title>{{ tile_matrix_set.title }}</ows:Title>
+      <ows:Identifier>{{ tile_matrix_set.identifier }}</ows:Identifier>
+      <ows:SupportedCRS>{{ tile_matrix_set.supported_crs }}</ows:SupportedCRS>
+      <WellKnownScaleSet>{{ tile_matrix_set.wellknown_scale_set }}</WellKnownScaleSet>
+      {% for tm in tile_matrix_set.tile_matrices %}
       <TileMatrix>
         <ows:Identifier>{{ tm.identifier }}</ows:Identifier>
         <ScaleDenominator>{{ tm.scale_denominator }}</ScaleDenominator>
@@ -51,5 +54,6 @@
       </TileMatrix>
       {% endfor %}
     </TileMatrixSet>
+    {% endfor %}
   </Contents>
 </Capabilities>
