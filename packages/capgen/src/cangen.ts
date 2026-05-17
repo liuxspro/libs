@@ -8,7 +8,8 @@ export interface Service {
   keywords: string[];
 }
 
-export type GeoPoint = { lon: number; lat: number };
+export type GeoPoint = [number, number];
+export type BBox = [GeoPoint, GeoPoint];
 
 export const default_service: Service = {
   title: "Simple WMTS",
@@ -16,14 +17,14 @@ export const default_service: Service = {
   keywords: ["WMTS"],
 };
 
-export const mercator_bbox: [GeoPoint, GeoPoint] = [
-  { lon: -180.0, lat: -85.051129 }, // 西南角 (LowerCorner)
-  { lon: 180.0, lat: 85.051129 }, // 东北角 (UpperCorner)
+export const mercator_bbox: BBox = [
+  [-180.0, -85.051129], // 西南角 (LowerCorner)
+  [180.0, 85.051129], // 东北角 (UpperCorner)
 ];
 
-export const world_mercator_bbox: [GeoPoint, GeoPoint] = [
-  { lon: -180.0, lat: -85.08405903 }, // 西南角 (LowerCorner)
-  { lon: 180.0, lat: 85.08405903 }, // 东北角 (UpperCorner)
+export const world_mercator_bbox: BBox = [
+  [-180.0, -85.08405903], // 西南角 (LowerCorner)
+  [180.0, 85.08405903], // 东北角 (UpperCorner)
 ];
 
 export class MapLayer {
@@ -81,7 +82,7 @@ export class Capabilities {
     const env = new Environment();
     env.trimBlocks = true;
     env.lstripBlocks = true;
-    env.debug = true;
+    // env.debug = true;
     const service = this.service;
     const layers = this.layers;
 

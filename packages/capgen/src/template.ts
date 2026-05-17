@@ -25,8 +25,8 @@ export const template = `<?xml version="1.0"?>
       <ows:Title>{{ layer.title }}</ows:Title>
       <ows:Abstract>{{ layer.abstract }}</ows:Abstract>
       <ows:WGS84BoundingBox>
-        <ows:LowerCorner>{{ layer.bbox[0].lon }} {{ layer.bbox[0].lat }}</ows:LowerCorner>
-        <ows:UpperCorner>{{ layer.bbox[1].lon }} {{ layer.bbox[1].lat }}</ows:UpperCorner>
+        <ows:LowerCorner>{{ layer.bbox[0][0] }} {{ layer.bbox[0][1] }}</ows:LowerCorner>
+        <ows:UpperCorner>{{ layer.bbox[1][0] }} {{ layer.bbox[1][1] }}</ows:UpperCorner>
       </ows:WGS84BoundingBox>
       <ows:Identifier>{{ layer.id }}</ows:Identifier>
       <Style>
