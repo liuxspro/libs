@@ -1,0 +1,14 @@
+{
+  "name": "shapefile",
+  "version": "0.1.0",
+  "exports": "./src/index.ts",
+  "tasks": {
+    "dev": "deno test --watch"
+  },
+  "license": "MIT",
+  "imports": {
+    "@mapbox/shp-write": "npm:@mapbox/shp-write@^0.4.3",
+    "@std/assert": "jsr:@std/assert@1",
+    "jszip": "npm:jszip@^3.10.1"
+  }
+}
