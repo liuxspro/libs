@@ -1,6 +1,6 @@
 import { cloneDeep } from "es-toolkit";
 
-interface TileMatrix {
+export interface TileMatrix {
   identifier: string;
   scale_denominator: number;
   top_left_corner: [number, number];

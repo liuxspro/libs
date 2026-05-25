@@ -42,7 +42,7 @@ export class MapLayer {
     public title: string,
     public abstract: string,
     public id: string,
-    public bbox: [GeoPoint, GeoPoint],
+    public bbox: [GeoPoint, GeoPoint] | BBox,
     public matrix: TileMatrixSet,
     public url: string,
     public format?: string,
