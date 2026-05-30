@@ -5,43 +5,12 @@ on:
       - main
 
 jobs:
-  setup:
-    name: Setup
-    runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.packages.outputs.packages }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
-      - name: List packages
-        id: packages
-        run: |
-          deno eval 'console.log(JSON.stringify([...Deno.readDirSync(`./packages`)].map((i) => i.name)))'
-          echo "packages=$(deno eval 'console.log(JSON.stringify([...Deno.readDirSync(`./packages`)].map((i) => i.name)))')" >> $GITHUB_OUTPUT
-
   publish:
-    name: Publish
-    needs: setup
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        package: ${{ fromJson(needs.setup.outputs.packages) }}
-
     permissions:
       contents: read
       id-token: write
-
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: denoland/setup-deno@v2
-
-      - name: Test package
-        run: |
-          cd packages/${{ matrix.package }}
-          deno test -A
-
-      - name: Publish package
-        run: |
-          cd packages/${{ matrix.package }}
-          npx jsr publish
+      - run: deno publish
