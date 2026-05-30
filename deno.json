@@ -1,0 +1,14 @@
+{
+  "workspace": [
+    "./packages/capgen",
+    "./packages/create-shp",
+    "./packages/libs",
+    "./packages/shapefile",
+    "./packages/webp_to_png"
+  ],
+  "lint": {
+    "rules": {
+      "exclude": ["no-import-prefix"]
+    }
+  }
+}
