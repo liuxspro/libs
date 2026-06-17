@@ -58,6 +58,15 @@ export function generate_tile_matrixs(
   });
 }
 
+type Constructor = new (
+  title: string,
+  id: string,
+  supported_crs: string,
+  wellknown_scale_set: string,
+  min_zoom: number,
+  max_zoom: number,
+) => TileMatrixSet;
+
 export class TileMatrixSet {
   public tile_matrixs: TileMatrix[];
   /**
@@ -77,9 +86,7 @@ export class TileMatrixSet {
     public min_zoom: number,
     public max_zoom: number,
   ) {
-    this.tile_matrixs = generate_tile_matrixs(this.min_zoom, this.max_zoom, {
-      type: "3857",
-    });
+    this.tile_matrixs = this.generateMatrixs(this.min_zoom, this.max_zoom);
   }
 
   /**
@@ -88,19 +95,18 @@ export class TileMatrixSet {
    * @param {number} max_zoom - New maximum zoom level
    * @returns {TileMatrixSet} Returns a new TileMatrixSet instance with updated zoom levels and tile matrices
    */
-  setZoom(min_zoom: number, max_zoom: number): TileMatrixSet {
-    let new_id = this.id;
-    if (min_zoom != 0 || max_zoom != 18) {
-      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
-    }
-    return new TileMatrixSet(
+  setZoom(min_zoom: number, max_zoom: number): this {
+    const newId = min_zoom !== 0 || max_zoom !== 18
+      ? `${this.id}F${min_zoom}T${max_zoom}`
+      : this.id;
+    return new (this.constructor as Constructor)(
       this.title,
-      new_id,
+      newId,
       this.supported_crs,
       this.wellknown_scale_set,
       min_zoom,
       max_zoom,
-    );
+    ) as this;
   }
   /**
    * Set identifier of tilematrix set
@@ -112,8 +118,12 @@ export class TileMatrixSet {
     return this;
   }
 
-  protected generateMatrixs(min: number, max: number): TileMatrix[] {
-    return generate_tile_matrixs(min, max);
+  protected generateMatrixs(
+    min: number,
+    max: number,
+    config: MatrixConfig = { type: "3857" },
+  ): TileMatrix[] {
+    return generate_tile_matrixs(min, max, config);
   }
 
   clone(): this {
@@ -131,7 +141,6 @@ export class TileMatrixSetHd extends TileMatrixSet {
     max_zoom: number,
   ) {
     super(title, id, supported_crs, wellknown_scale_set, min_zoom, max_zoom);
-    this.tile_matrixs = this.generateMatrixs(min_zoom, max_zoom);
   }
 
   protected override generateMatrixs(min: number, max: number): TileMatrix[] {
@@ -140,21 +149,6 @@ export class TileMatrixSetHd extends TileMatrixSet {
       tileSize: 512,
       hdMode: true,
     });
-  }
-
-  override setZoom(min_zoom: number, max_zoom: number): TileMatrixSetHd {
-    let new_id = this.id;
-    if (min_zoom != 0 || max_zoom != 18) {
-      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
-    }
-    return new TileMatrixSetHd(
-      this.title,
-      new_id,
-      this.supported_crs,
-      this.wellknown_scale_set,
-      min_zoom,
-      max_zoom,
-    );
   }
 }
 
@@ -168,26 +162,10 @@ export class CRS84TileMatrixSet extends TileMatrixSet {
     max_zoom: number,
   ) {
     super(title, id, supported_crs, wellknown_scale_set, min_zoom, max_zoom);
-    this.tile_matrixs = this.generateMatrixs(min_zoom, max_zoom);
   }
 
   protected override generateMatrixs(min: number, max: number): TileMatrix[] {
     return generate_tile_matrixs(min, max, { "type": "4326" });
-  }
-
-  override setZoom(min_zoom: number, max_zoom: number): CRS84TileMatrixSet {
-    let new_id = this.id;
-    if (min_zoom != 0 || max_zoom != 18) {
-      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
-    }
-    return new CRS84TileMatrixSet(
-      this.title,
-      new_id,
-      this.supported_crs,
-      this.wellknown_scale_set,
-      min_zoom,
-      max_zoom,
-    );
   }
 }
 
@@ -201,7 +179,6 @@ export class CRS84LessTileMatrixSet extends CRS84TileMatrixSet {
     max_zoom: number,
   ) {
     super(title, id, supported_crs, wellknown_scale_set, min_zoom, max_zoom);
-    this.tile_matrixs = this.generateMatrixs(min_zoom, max_zoom);
   }
   protected override generateMatrixs(min: number, max: number): TileMatrix[] {
     const matrix = generate_tile_matrixs(min, max, { "type": "4326" });
@@ -213,84 +190,42 @@ export class CRS84LessTileMatrixSet extends CRS84TileMatrixSet {
     });
     return matrix_less;
   }
+}
 
-  override setZoom(min_zoom: number, max_zoom: number): CRS84LessTileMatrixSet {
-    let new_id = this.id;
-    if (min_zoom != 0 || max_zoom != 18) {
-      new_id = `${this.id}F${min_zoom}T${max_zoom}`;
-    }
-    return new CRS84LessTileMatrixSet(
-      this.title,
-      new_id,
-      this.supported_crs,
-      this.wellknown_scale_set,
-      min_zoom,
-      max_zoom,
-    );
+export class CRS84TileMatrixSetDPI96 extends CRS84TileMatrixSet {
+  constructor(
+    title: string,
+    id: string,
+    supported_crs: string,
+    wellknown_scale_set: string,
+    min_zoom: number,
+    max_zoom: number,
+  ) {
+    super(title, id, supported_crs, wellknown_scale_set, min_zoom, max_zoom);
+  }
+  protected override generateMatrixs(min: number, max: number): TileMatrix[] {
+    return generate_tile_matrixs(min, max, {
+      "type": "4326",
+      baseScale: 591658710.9091313,
+    });
   }
 }
 
-// 常用瓦片矩阵集
-// WebMercator (256px)
-// https://docs.ogc.org/is/17-083r2/17-083r2.html#73
-export const web_mercator_quad: TileMatrixSet = new TileMatrixSet(
-  "Google Maps Compatible for the World",
-  "WebMercatorQuad",
-  "EPSG:3857",
-  "http://www.opengis.net/def/wkss/OGC/1.0/GoogleMapsCompatible",
-  0,
-  18,
-);
-
-// web_mercator_quad (512px)
-export const web_mercator_quad_hd: TileMatrixSetHd = new TileMatrixSetHd(
-  "Google Maps Compatible for the World",
-  "WebMercatorQuadHd",
-  "EPSG:3857",
-  "http://www.opengis.net/def/wkss/OGC/1.0/GoogleMapsCompatible",
-  0,
-  18,
-);
-
-// https://docs.ogc.org/is/17-083r2/17-083r2.html#76
-// 此处使用了 EPSG:4326 变体
-export const world_crs84_quad: CRS84TileMatrixSet = new CRS84TileMatrixSet(
-  "CRS84 for the World",
-  "WorldCRS84Quad",
-  "EPSG:4326",
-  "http://www.opengis.net/def/wkss/OGC/1.0/GoogleCRS84Quad",
-  1,
-  18,
-);
-
-// 比正常的 4326 瓦片层级少 1
-export const world_crs84_quad_less: CRS84LessTileMatrixSet =
-  new CRS84LessTileMatrixSet(
-    "CRS84 for the World",
-    "WorldCRS84QuadLess",
-    "EPSG:4326",
-    "http://www.opengis.net/def/wkss/OGC/1.0/GoogleCRS84Quad",
-    1,
-    18,
-  );
-
-// 与 EPSG:4326 基本一样
-export const cgcs2000_quad: CRS84TileMatrixSet = new CRS84TileMatrixSet(
-  "CRS84 for the World",
-  "CGCS2000Quad",
-  "EPSG:4490",
-  "http://www.opengis.net/def/wkss/OGC/1.0/GoogleCRS84Quad",
-  1,
-  18,
-);
-
-// EPSG:3395
-// See https://docs.ogc.org/is/17-083r4/17-083r4.html#toc51
-export const world_mercator_quad: TileMatrixSet = new TileMatrixSet(
-  "CRS84 for the World",
-  "WorldMercatorWGS84Quad",
-  "EPSG:3395",
-  "http://www.opengis.net/def/wkss/OGC/1.0/WorldMercatorWGS84",
-  0,
-  18,
-);
+export class TileMatrixSetDPI96 extends TileMatrixSet {
+  constructor(
+    title: string,
+    id: string,
+    supported_crs: string,
+    wellknown_scale_set: string,
+    min_zoom: number,
+    max_zoom: number,
+  ) {
+    super(title, id, supported_crs, wellknown_scale_set, min_zoom, max_zoom);
+  }
+  protected override generateMatrixs(min: number, max: number): TileMatrix[] {
+    return generate_tile_matrixs(min, max, {
+      "type": "3857",
+      baseScale: 591658710.9091313,
+    });
+  }
+}

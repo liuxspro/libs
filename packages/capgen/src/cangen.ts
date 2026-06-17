@@ -9,23 +9,16 @@ export interface Service {
 }
 
 export type GeoPoint = [number, number];
+
+/**
+ * 边界框
+ * 西南角坐标，东北角坐标
+ * LowerCorner （最小值坐标）
+ * UpperCorner（最大值坐标）
+ * (Xmin, Ymax) - (Xmax, Ymax)
+ * (Xmin, Ymin) - (Xmax, Ymin)
+ */
 export type BBox = [GeoPoint, GeoPoint];
-
-export const default_service: Service = {
-  title: "Simple WMTS",
-  abstract: "Simple WMTS",
-  keywords: ["WMTS"],
-};
-
-export const mercator_bbox: BBox = [
-  [-180.0, -85.051129], // 西南角 (LowerCorner)
-  [180.0, 85.051129], // 东北角 (UpperCorner)
-];
-
-export const world_mercator_bbox: BBox = [
-  [-180.0, -85.08405903], // 西南角 (LowerCorner)
-  [180.0, 85.08405903], // 东北角 (UpperCorner)
-];
 
 export class MapLayer {
   wmts_url: string;
