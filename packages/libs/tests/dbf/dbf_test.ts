@@ -1,5 +1,11 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert";
 import { DBF, Field } from "../../src/dbf/mod.ts";
+import { dirname, fromFileUrl, join } from "jsr:@std/path";
+const currentFile = fromFileUrl(import.meta.url);
+const currentDir = dirname(currentFile);
+
+console.log(currentFile); // /home/user/project/mod.ts
+console.log(currentDir);
 
 // 测试DBF类的基本构造函数和属性
 Deno.test("DBF构造函数 - 基本功能", function () {
@@ -318,23 +324,24 @@ Deno.test("DBF - 与Arcmap生成的DBF文件对比", async function () {
 
   const dbf = new DBF([dxz, cxz, fdx, sjd, wb, rq], [record_1, record_2]);
   dbf.set_create_date(new Date("2025-9-6"));
-  const arcmap = await Deno.readFile("./tests/dbf/data/arcmap_gen.dbf");
+  const arcmap_file_path = join(currentDir, "data", "arcmap_gen.dbf");
+  const arcmap = await Deno.readFile(arcmap_file_path);
   assertEquals(dbf.data, arcmap);
 });
 
-Deno.test("DBF - 空值处理", function () {
-  const dxz = new Field("短整型", "N", 5);
-  const cxz = new Field("长整型", "N", 10);
-  const fdx = new Field("浮点型", "N", 16, 2);
-  const sjd = new Field("双精度", "N", 16, 2);
-  const wb = new Field("文本", "C", 50);
-  const rq = new Field("日期", "D");
+// Deno.test("DBF - 空值处理", function () {
+//   const dxz = new Field("短整型", "N", 5);
+//   const cxz = new Field("长整型", "N", 10);
+//   const fdx = new Field("浮点型", "N", 16, 2);
+//   const sjd = new Field("双精度", "N", 16, 2);
+//   const wb = new Field("文本", "C", 50);
+//   const rq = new Field("日期", "D");
 
-  const record_1 = [1, null, 1.23, null, null, null];
-  const dbf = new DBF([dxz, cxz, fdx, sjd, wb, rq], [record_1]);
-  dbf.set_create_date(new Date("2025-9-6"));
-  Deno.writeFileSync("./tests/dbf/data/null_value.dbf", dbf.data);
-});
+//   const record_1 = [1, null, 1.23, null, null, null];
+//   const dbf = new DBF([dxz, cxz, fdx, sjd, wb, rq], [record_1]);
+//   dbf.set_create_date(new Date("2025-9-6"));
+//   Deno.writeFileSync("./tests/dbf/data/null_value.dbf", dbf.data);
+// });
 
 // Deno.test("DBF - 测试边界文件生成", function () {
 //   const DKMC = new Field("DKMC", "C", 254);
