@@ -4,7 +4,8 @@
     "./packages/create-shp",
     "./packages/libs",
     "./packages/shapefile",
-    "./packages/webp_to_png"
+    "./packages/webp_to_png",
+    "./packages/ol-north-arrow"
   ],
   "lint": {
     "rules": {

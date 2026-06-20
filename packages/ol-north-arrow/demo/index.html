@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NorthArrow Demo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v10.9.0/ol.css"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "ol": "https://esm.sh/ol@10.9.0",
+          "ol/": "https://esm.sh/ol@10.9.0/"
+        }
+      }
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      #map {
+        flex: 1;
+        width: 100%;
+      }
+
+      .ol-north-arrow {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        cursor: pointer;
+        transition: transform 0.05s linear;
+      }
+      .ol-north-arrow:hover {
+        filter: brightness(0.9);
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        flex-wrap: wrap;
+      }
+      .toolbar label {
+        font-size: 13px;
+        color: #555;
+      }
+      .toolbar select,
+      .toolbar button {
+        padding: 4px 12px;
+        font-size: 13px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+      }
+      .toolbar button:hover {
+        background: #f0f0f0;
+      }
+      .toolbar .rotation-value {
+        font-size: 13px;
+        color: #888;
+        margin-left: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <label>指北针样式</label>
+      <select id="styleSelect">
+        <option value="1">样式 1 (黑 N)</option>
+        <option value="2">样式 2 (半白半黑)</option>
+        <option value="D1">样式 D1 (白 N)</option>
+        <option value="D2">样式 D2 (半黑半白 反)</option>
+      </select>
+      <button id="btnRotate30">↻ 旋转 30°</button>
+      <button id="btnRotate90">↻ 旋转 90°</button>
+      <button id="btnRotateNeg30">↺ 旋转 -30°</button>
+      <button id="btnReset">⟲ 归零</button>
+      <span class="rotation-value" id="rotationDisplay">旋转角度: 0°</span>
+    </div>
+    <div id="map"></div>
+
+    <script type="module">
+      import NorthArrow from "/dist/north-arrow.js";
+      import Map from "ol/Map.js";
+      import View from "ol/View.js";
+      import TileLayer from "ol/layer/Tile.js";
+      import OSM from "ol/source/OSM.js";
+      import { fromLonLat } from "ol/proj.js";
+      import { toDegrees, toRadians } from "ol/math.js";
+
+      // ======== 地图 ========
+      const map = new Map({
+        target: "map",
+        layers: [new TileLayer({ source: new OSM() })],
+        view: new View({
+          center: fromLonLat([116.397, 39.908]),
+          zoom: 12,
+        }),
+      });
+
+      // ======== 指北针 ========
+      const northArrow = new NorthArrow({ width: "64px", style: "1" });
+      map.addControl(northArrow);
+
+      // ======== 旋转角度显示 ========
+      function updateRotationDisplay() {
+        const deg = toDegrees(map.getView().getRotation());
+        document.getElementById("rotationDisplay").textContent =
+          `旋转角度: ${deg.toFixed(1)}°`;
+      }
+      map.getView().on("change:rotation", updateRotationDisplay);
+      updateRotationDisplay();
+
+      // ======== 切换样式 ========
+      document.getElementById("styleSelect").addEventListener("change", (e) => {
+        northArrow.setStyle(e.target.value);
+      });
+
+      // ======== 旋转按钮 ========
+      function rotateMap(degrees) {
+        const view = map.getView();
+        view.animate({
+          rotation: view.getRotation() + toRadians(degrees),
+          duration: 300,
+        });
+      }
+      document
+        .getElementById("btnRotate30")
+        .addEventListener("click", () => rotateMap(30));
+      document
+        .getElementById("btnRotate90")
+        .addEventListener("click", () => rotateMap(90));
+      document
+        .getElementById("btnRotateNeg30")
+        .addEventListener("click", () => rotateMap(-30));
+      document
+        .getElementById("btnReset")
+        .addEventListener("click", () => northArrow.resetRotation());
+    </script>
+  </body>
+</html>
