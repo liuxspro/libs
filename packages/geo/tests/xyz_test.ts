@@ -10,3 +10,9 @@ Deno.test("Geo: XYZ to point", () => {
   assertEquals(xyz.to_crs84_point().toPoint(), point);
   assertEquals(xyz.to_crs84_point().toMercator(), mercator);
 });
+
+Deno.test("Geo: XYZ to quadkey", () => {
+  const xyz = new XYZ(54726, 26765, 16);
+  const quadkey = "1321210131002312";
+  assertEquals(xyz.to_bing_quadkey(), quadkey);
+});

@@ -1,6 +1,7 @@
 import type { Point } from "./point.ts";
 import { CRS84Point } from "./crs84point.ts";
 import { d2r, r2d } from "./utils.ts";
+import { xyz_to_quad } from "./quad/bing.ts";
 
 class BaseXYZ {
   /**
@@ -50,6 +51,14 @@ export class XYZ extends BaseXYZ {
    */
   to_crs84_point(): CRS84Point {
     return CRS84Point.fromPoint(this.to_point());
+  }
+
+  /**
+   * 将 XYZ 瓦片坐标转换为 Bing Quadkey
+   * @returns {string} Bing Quadkey
+   */
+  to_bing_quadkey(): string {
+    return xyz_to_quad(this.x, this.y, this.z);
   }
 
   /**

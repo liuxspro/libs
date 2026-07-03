@@ -25,3 +25,13 @@ export const d2r = degree_to_radius;
  *  将弧度转换为角度的别名函数。
  */
 export const r2d = radius_to_degree;
+
+/**
+ * 检查指定的位是否被设置。
+ * @param bits 位值
+ * @param mask 位掩码
+ * @returns 如果位被设置则返回 true，否则返回 false
+ */
+export function is_bit_set(bits: number, mask: number) {
+  return (bits & mask) !== 0;
+}
