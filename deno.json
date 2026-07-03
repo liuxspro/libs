@@ -5,6 +5,7 @@
     "./packages/libs",
     "./packages/shapefile",
     "./packages/webp_to_png",
+    "./packages/geo",
     "./packages/ol-north-arrow"
   ],
   "lint": {

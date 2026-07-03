@@ -452,6 +452,11 @@
           "npm:papaparse@^5.5.3"
         ]
       },
+      "packages/geo": {
+        "dependencies": [
+          "jsr:@std/assert@1"
+        ]
+      },
       "packages/ol-north-arrow": {
         "dependencies": [
           "jsr:@std/assert@1",
