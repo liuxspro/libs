@@ -1,24 +1,13 @@
 import { Environment } from "minijinja-js";
 import { template } from "./template.ts";
 import type { TileMatrixSet } from "./matrix.ts";
+import type { BBox } from "@liuxspro/geo";
 
 export interface Service {
   title: string;
   abstract: string;
   keywords: string[];
 }
-
-export type GeoPoint = [number, number];
-
-/**
- * 边界框
- * 西南角坐标，东北角坐标
- * LowerCorner （最小值坐标）
- * UpperCorner（最大值坐标）
- * (Xmin, Ymax) - (Xmax, Ymax)
- * (Xmin, Ymin) - (Xmax, Ymin)
- */
-export type BBox = [GeoPoint, GeoPoint];
 
 export class MapLayer {
   wmts_url: string;
@@ -35,7 +24,7 @@ export class MapLayer {
     public title: string,
     public abstract: string,
     public id: string,
-    public bbox: [GeoPoint, GeoPoint] | BBox,
+    public bbox: BBox,
     public matrix: TileMatrixSet,
     public url: string,
     public format?: string,

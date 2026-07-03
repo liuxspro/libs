@@ -1,4 +1,5 @@
-import type { BBox, Service } from "./cangen.ts";
+import type { Service } from "./cangen.ts";
+import type { BBox } from "@liuxspro/geo";
 import {
   CRS84LessTileMatrixSet,
   CRS84TileMatrixSet,
