@@ -8,7 +8,7 @@
  * @example
  * const location: Point = [116.4074, 39.9042];
  */
-export type Point = [number, number];
+export type Point = [number, number] | number[];
 
 /**
  * 表示带有高度信息的地理坐标点的数据类型
@@ -56,3 +56,20 @@ export function calc_signed_area(points: Point[]): number {
   }
   return area / 2;
 }
+
+/**
+ * 边界框
+ * 西南(左下）角坐标，东北（右上）角坐标
+ * [minx, miny, maxx, maxy]
+ * LowerCorner （最小值坐标）
+ * UpperCorner（最大值坐标）
+ * (Xmin, Ymax) - (Xmax, Ymax)
+ * (Xmin, Ymin) - (Xmin, Ymin)
+ * @example
+ * ```
+ * const p1 = [120, 30]
+ * const p2 = [121, 32]
+ * const bbox:BBox = [p1, p2]
+ * ```
+ */
+export type BBox = [Point, Point];
