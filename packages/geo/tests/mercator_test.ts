@@ -11,6 +11,8 @@ const wgs_points: [number, number][] = [
   [120.618896484375, 31.29263405889953],
 ];
 
+// console.log(wgs_points.map(CRS84Point.fromPoint))
+
 const mercator_points: [number, number][] = [
   [13358338.89519283, 3503549.84350438],
   [5232016.06728386, 2999080.94347064],
