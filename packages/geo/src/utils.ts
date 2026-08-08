@@ -35,3 +35,31 @@ export const r2d = radius_to_degree;
 export function is_bit_set(bits: number, mask: number) {
   return (bits & mask) !== 0;
 }
+
+/**
+ * 将缩放级别转换为比例尺。
+ * @param zoom 缩放级别
+ * @param dpi 分辨率（可选）默认为OGC标准，可选96
+ * @returns 比例尺
+ */
+export function zoom_to_scale(zoom: number, dpi?: number): number {
+  let pixel_width = 0.00028;
+  if (dpi == 96) {
+    pixel_width = 0.0254 / 96;
+  }
+  return (256 * Math.pow(2, zoom) * pixel_width) / (2 * Math.PI * 6378137);
+}
+
+/**
+ * 将缩放级别转换为比例尺分母。
+ * @param zoom 缩放级别
+ * @param dpi 分辨率（可选）默认为OGC标准，可选 96
+ * @returns 比例尺分母
+ */
+export function zoom_to_scale_denominator(zoom: number, dpi?: number): number {
+  let pixel_width = 0.00028;
+  if (dpi == 96) {
+    pixel_width = 0.0254 / 96;
+  }
+  return (2 * Math.PI * 6378137) / (256 * Math.pow(2, zoom) * pixel_width);
+}
