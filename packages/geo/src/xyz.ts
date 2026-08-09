@@ -1,9 +1,8 @@
 import type { Point } from "./point.ts";
 import { CRS84Point } from "./crs84point.ts";
-import { d2r, r2d } from "./utils.ts";
+import { d2r, r2d, zoom_to_resolution } from "./utils.ts";
 import { xyz_to_quad } from "./quad/bing.ts";
 import { xyz_to_quad as to_ge_quad } from "./quad/ge.ts";
-
 
 class BaseXYZ {
   /**
@@ -63,6 +62,9 @@ export class XYZ extends BaseXYZ {
     return xyz_to_quad(this.x, this.y, this.z);
   }
 
+  get resolution(): number {
+    return zoom_to_resolution(this.z);
+  }
   /**
    * 从地理经纬度坐标生成对应的XYZ瓦片坐标
    * @param lon - 经度（单位：度）

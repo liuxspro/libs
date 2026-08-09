@@ -1,5 +1,10 @@
 import { assertEquals } from "jsr:@std/assert";
-import { XYZ,CRS84XYZ } from "../src/xyz.ts";
+import { CRS84XYZ, XYZ } from "../src/xyz.ts";
+
+Deno.test("Geo: XYZ", () => {
+  const xyz = new XYZ(54726, 26765, 16);
+  assertEquals(xyz.resolution, 2.388657133911758);
+});
 
 Deno.test("Geo: XYZ to point", () => {
   const xyz = new XYZ(54726, 26765, 16);
@@ -16,7 +21,6 @@ Deno.test("Geo: XYZ to quadkey", () => {
   const quadkey = "1321210131002312";
   assertEquals(xyz.to_bing_quadkey(), quadkey);
 });
-
 
 Deno.test("Geo: CRS84XYZ to quadkey", () => {
   const xyz = new CRS84XYZ(211, 100, 8);

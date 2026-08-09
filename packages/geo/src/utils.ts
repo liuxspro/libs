@@ -63,3 +63,12 @@ export function zoom_to_scale_denominator(zoom: number, dpi?: number): number {
   }
   return (2 * Math.PI * 6378137) / (256 * Math.pow(2, zoom) * pixel_width);
 }
+
+/**
+ * 将缩放级别转换为分辨率(米/像素)[墨卡托坐标系]。
+ * @param zoom 缩放级别
+ * @returns 分辨率(米/像素)
+ */
+export function zoom_to_resolution(zoom: number): number {
+  return (2 * Math.PI * 6378137) / (256 * Math.pow(2, zoom));
+}
