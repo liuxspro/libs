@@ -40,6 +40,11 @@ Deno.test("Geo: types", () => {
   assertEquals(trans_ring.points[0][0], 11);
 
   const polygon = new Polygon([ring]);
+  const polygon_from_points = Polygon.from_points(points);
+  assertEquals(polygon_from_points.rings.length, 1);
+  assertEquals(polygon_from_points.coordinates[0], ring4.points);
+  assertEquals(polygon_from_points.get_area(), ring4.get_area());
+  assertEquals(polygon_from_points.to_multipolygon().polygons.length, 1);
   const polygon2 = new Polygon([ring5.ensure_outer(), ring6]);
   assertEquals(polygon2.get_area(), 222.5);
   assertEquals(polygon2.to_multipolygon().get_area(), 222.5);

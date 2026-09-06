@@ -35,6 +35,12 @@ export class Ring {
     this.check_points_number();
   }
 
+  static from_points<
+    T extends typeof Ring,
+  >(this: T, points: Point[]): InstanceType<T> {
+    return new this(points) as InstanceType<T>;
+  }
+
   /**
    * 检查点数是否满足最小要求
    *

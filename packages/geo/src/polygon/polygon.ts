@@ -1,4 +1,4 @@
-import type { Ring } from "./ring.ts";
+import { Ring } from "./ring.ts";
 import type { Point } from "../point.ts";
 
 export class Polygon {
@@ -27,6 +27,26 @@ export class Polygon {
    */
   constructor(rings: Ring[]) {
     this.rings = [...rings];
+  }
+
+  /**
+   * 从一组点创建一个只包含单个外环的多边形
+   *
+   * 内部会先用这些点构造一个 Ring 并作为唯一的外环，适合从坐标序列快速构建简单多边形。
+   * 如需带孔洞的多边形，请直接使用构造函数传入多个环。
+   *
+   * @param points 组成外环的点数组
+   * @returns 包含单个外环的 Polygon 实例
+   *
+   * @example
+   * ```typescript
+   * const polygon = Polygon.from_points([[0, 0], [10, 0], [10, 10], [0, 10]]);
+   * ```
+   */
+  static from_points<
+    T extends typeof Polygon,
+  >(this: T, points: Point[]): InstanceType<T> {
+    return new this([new Ring(points)]) as InstanceType<T>;
   }
 
   /**
