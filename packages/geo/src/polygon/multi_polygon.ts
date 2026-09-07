@@ -93,6 +93,15 @@ export class MultiPolygon {
   get coordinates(): Point[][][] {
     return this.polygons.map((polygon) => polygon.coordinates);
   }
+
+  /**
+   * 获取多多边形的第一个点
+   *
+   * @returns 第一个点的坐标
+   */
+  get first_point(): Point {
+    return this.polygons[0].rings[0].points[0];
+  }
   /**
    * 对多多边形的所有点进行坐标转换
    *

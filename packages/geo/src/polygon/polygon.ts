@@ -91,6 +91,15 @@ export class Polygon {
   }
 
   /**
+   * 获取多边形的第一个点
+   *
+   * @returns 第一个点的坐标
+   */
+  get first_point(): Point {
+    return this.rings[0].points[0];
+  }
+
+  /**
    * 对多边形的所有点进行坐标转换
    *
    * @param transformFn 坐标转换函数，接收一个点并返回转换后的点
