@@ -50,6 +50,17 @@ export class Polygon {
   }
 
   /**
+   * 用给定的环数组创建一个与当前实例同类型的新多边形
+   *
+   * 通过 this.constructor 构造，保证返回的实例与当前实例属于同一子类，
+   * 从而保留子类上扩展的方法（如 to_multipolygon）。
+   */
+  private clone(rings: Ring[]): this {
+    const Ctor = this.constructor as new (rings: Ring[]) => Polygon;
+    return new Ctor(rings) as this;
+  }
+
+  /**
    * 向多边形添加一个环
    *
    * 通常用于添加内环（孔洞），但也可以添加外环（如果多边形是空的）。
@@ -103,15 +114,15 @@ export class Polygon {
    * 对多边形的所有点进行坐标转换
    *
    * @param transformFn 坐标转换函数，接收一个点并返回转换后的点
-   * @returns 返回新的 Polygon 实例
+   * @returns 与当前实例同类型的新 Polygon 实例
    */
   transform(
     transformFn: (point: Point) => Point,
-  ): Polygon {
+  ): this {
     const transformedRings = this.rings.map((ring) =>
       ring.transform(transformFn)
     );
-    return new Polygon(transformedRings);
+    return this.clone(transformedRings);
   }
 
   /**
@@ -135,20 +146,20 @@ export class Polygon {
    * 确保多边形符合 GeoJSON 标准
    *
    * GeoJSON 标准要求外环为逆时针方向，内环为顺时针方向。
-   * @returns
+   * @returns 与当前实例同类型的新 Polygon 实例
    */
-  ensure_geojson_standard(): Polygon {
+  ensure_geojson_standard(): this {
     const length = this.rings.length;
     if (length === 1) {
       const ring = this.rings[0];
-      return new Polygon([ring.ensure_outer()]);
+      return this.clone([ring.ensure_outer()]);
     } else {
       const first_ring = this.rings[0];
       const new_first_ring = first_ring.ensure_outer();
       const other_rings = this.rings.slice(1).map((ring) =>
         ring.ensure_inner()
       );
-      return new Polygon([new_first_ring, ...other_rings]);
+      return this.clone([new_first_ring, ...other_rings]);
     }
   }
 
@@ -156,20 +167,20 @@ export class Polygon {
    * 确保多边形符合 ESRI Shapefile 标准
    *
    * ESRI Shapefile 标准要求外环为顺时针方向，内环为逆时针方向。
-   * @returns
+   * @returns 与当前实例同类型的新 Polygon 实例
    */
-  ensure_esri_standard(): Polygon {
+  ensure_esri_standard(): this {
     const length = this.rings.length;
     if (length === 1) {
       const ring = this.rings[0];
-      return new Polygon([ring.ensure_esri_outer()]);
+      return this.clone([ring.ensure_esri_outer()]);
     } else {
       const first_ring = this.rings[0];
       const new_first_ring = first_ring.ensure_esri_outer();
       const other_rings = this.rings.slice(1).map((ring) =>
         ring.ensure_esri_inner()
       );
-      return new Polygon([new_first_ring, ...other_rings]);
+      return this.clone([new_first_ring, ...other_rings]);
     }
   }
 }

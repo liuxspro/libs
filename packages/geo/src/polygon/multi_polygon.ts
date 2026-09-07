@@ -40,6 +40,17 @@ export class MultiPolygon {
   }
 
   /**
+   * 用给定的多边形数组创建一个与当前实例同类型的新多多边形
+   *
+   * 通过 this.constructor 构造，保证返回的实例与当前实例属于同一子类，
+   * 从而保留子类上扩展的方法。
+   */
+  private clone(polygons: Polygon[]): this {
+    const Ctor = this.constructor as new (polygons: Polygon[]) => MultiPolygon;
+    return new Ctor(polygons) as this;
+  }
+
+  /**
    * 向多多边形添加一个多边形
    *
    * 用于动态构建多多边形集合，添加的多边形在几何上应与其他多边形独立。
@@ -106,15 +117,15 @@ export class MultiPolygon {
    * 对多多边形的所有点进行坐标转换
    *
    * @param transformFn 坐标转换函数，接收一个点并返回转换后的点
-   * @returns 返回新的 MultiPolygon 实例
+   * @returns 与当前实例同类型的新 MultiPolygon 实例
    */
   transform(
     transformFn: (point: Point) => Point,
-  ): MultiPolygon {
+  ): this {
     const transformedPolygons = this.polygons.map((polygon) =>
       polygon.transform(transformFn)
     );
-    return new MultiPolygon(transformedPolygons);
+    return this.clone(transformedPolygons);
   }
 
   /**
@@ -134,25 +145,25 @@ export class MultiPolygon {
    * 确保多多边形符合 GeoJSON 标准
    *
    * GeoJSON 标准要求外环为逆时针方向，内环为顺时针方向。
-   * @returns {MultiPolygon} 符合 GeoJSON 标准的多多边形实例
+   * @returns {this} 符合 GeoJSON 标准、与当前实例同类型的多多边形实例
    */
-  ensure_geojson_standard(): MultiPolygon {
+  ensure_geojson_standard(): this {
     const new_polygons = this.polygons.map((polygon) =>
       polygon.ensure_geojson_standard()
     );
-    return new MultiPolygon(new_polygons);
+    return this.clone(new_polygons);
   }
 
   /**
    * 确保多多边形符合 ESRI Shapefile 标准
    *
    * ESRI Shapefile 标准要求外环为顺时针方向，内环为逆时针方向。
-   * @returns {MultiPolygon} 符合 ESRI 标准的多多边形实例
+   * @returns {this} 符合 ESRI 标准、与当前实例同类型的多多边形实例
    */
-  ensure_esri_standard(): MultiPolygon {
+  ensure_esri_standard(): this {
     const new_polygons = this.polygons.map((polygon) =>
       polygon.ensure_esri_standard()
     );
-    return new MultiPolygon(new_polygons);
+    return this.clone(new_polygons);
   }
 }

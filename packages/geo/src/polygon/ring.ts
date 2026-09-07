@@ -42,6 +42,17 @@ export class Ring {
   }
 
   /**
+   * 用给定的点数组创建一个与当前实例同类型的新环
+   *
+   * 通过 this.constructor 构造，保证返回的实例与当前实例属于同一子类，
+   * 从而保留子类上扩展的方法（如 to_polygon）。
+   */
+  private clone(points: Point[]): this {
+    const Ctor = this.constructor as new (points: Point[]) => Ring;
+    return new Ctor(points) as this;
+  }
+
+  /**
    * 检查点数是否满足最小要求
    *
    * 一个有效的环至少需要3个不同的点（形成闭合后至少4个点）
@@ -72,7 +83,7 @@ export class Ring {
    * 对环的所有点进行坐标转换
    *
    * @param transformFn 坐标转换函数，接收一个点并返回转换后的点
-   * @returns 返回新的 Ring 实例，包含转换后的点
+   * @returns 与当前实例同类型的新 Ring 实例，包含转换后的点
    *
    * @example
    * ```typescript
@@ -87,9 +98,9 @@ export class Ring {
    */
   transform(
     transformFn: (point: Point) => Point,
-  ): Ring {
+  ): this {
     const transformedPoints = this.points.map(transformFn);
-    return new Ring(transformedPoints);
+    return this.clone(transformedPoints);
   }
 
   /**
@@ -123,11 +134,11 @@ export class Ring {
 
   /**
    * 获取当前环的反向环
-   * @returns 新的 Ring 实例，点顺序与当前环相反
+   * @returns 与当前实例同类型的新 Ring 实例，点顺序与当前环相反
    */
-  to_reversed(): Ring {
+  to_reversed(): this {
     const reversed = this.points.slice().reverse();
-    return new Ring(reversed);
+    return this.clone(reversed);
   }
 
   /**
@@ -135,7 +146,7 @@ export class Ring {
    *
    * 如果当前环为顺时针方向（内环），则反转点数组以确保为逆时针方向（外环）
    */
-  ensure_outer(): Ring {
+  ensure_outer(): this {
     if (!this.is_outer()) {
       return this.to_reversed();
     } else {
@@ -148,7 +159,7 @@ export class Ring {
    *
    * 如果当前环为逆时针方向（外环），则反转点数组以确保为顺时针方向（内环）
    */
-  ensure_inner(): Ring {
+  ensure_inner(): this {
     if (this.is_outer()) {
       return this.to_reversed();
     } else {
@@ -160,9 +171,9 @@ export class Ring {
    * 确保环为 ESRI Shapefile 标准的外环（顺时针方向）
    *
    * 如果当前环为逆时针方向（外环），则反转点数组以确保为顺时针方向（外环）
-   * @returns {Ring} 确保为顺时针方向的环实例
+   * @returns {this} 确保为顺时针方向、与当前实例同类型的环实例
    */
-  ensure_esri_outer(): Ring {
+  ensure_esri_outer(): this {
     // 如果不是顺时针方向，则反转点数组
     if (!this.is_clockwise()) {
       return this.to_reversed();
@@ -175,9 +186,9 @@ export class Ring {
    * 确保环为 ESRI Shapefile 标准的内环（逆时针方向）
    *
    * 如果当前环为顺时针方向（外环），则反转点数组以确保为逆时针方向（内环）
-   * @returns {Ring} 确保为逆时针方向的环实例
+   * @returns {this} 确保为逆时针方向、与当前实例同类型的环实例
    */
-  ensure_esri_inner(): Ring {
+  ensure_esri_inner(): this {
     // 如果是逆时针方向，则反转点数组
     if (this.is_clockwise()) {
       return this.to_reversed();

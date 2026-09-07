@@ -38,6 +38,13 @@ Deno.test("Geo: types", () => {
   assertEquals(ring2.points[0], ring2.points.at(-1));
   assertEquals(ring3.points.length, 4);
   assertEquals(trans_ring.points[0][0], 11);
+  // 子类实例经 transform / to_reversed / ensure_* 后仍是子类，可继续调用 to_polygon
+  assertEquals(ring.transform(t).to_polygon().rings.length, 1);
+  assertEquals(ring.to_reversed().to_polygon().rings.length, 1);
+  assertEquals(ring.ensure_outer().to_polygon().rings.length, 1);
+  assertEquals(ring5.ensure_inner().to_polygon().rings.length, 1);
+  assertEquals(ring5.ensure_esri_outer().to_polygon().rings.length, 1);
+  assertEquals(ring5.ensure_esri_inner().to_polygon().rings.length, 1);
 
   const polygon = new Polygon([ring]);
   const polygon_from_points = Polygon.from_points(points);
@@ -48,6 +55,16 @@ Deno.test("Geo: types", () => {
   const polygon2 = new Polygon([ring5.ensure_outer(), ring6]);
   assertEquals(polygon2.get_area(), 222.5);
   assertEquals(polygon2.to_multipolygon().get_area(), 222.5);
+  // 子类实例经 transform / ensure_* 后仍是子类，可继续调用 to_multipolygon
+  assertEquals(polygon.transform(t).to_multipolygon().polygons.length, 1);
+  assertEquals(
+    polygon2.ensure_geojson_standard().to_multipolygon().polygons.length,
+    1,
+  );
+  assertEquals(
+    polygon2.ensure_esri_standard().to_multipolygon().polygons.length,
+    1,
+  );
 
   const mpolygon = new MultiPolygon([polygon, new Polygon([ring4])]);
   // console.log(JSON.stringify(ring4.to_multipolygon().to_geojson()));
@@ -55,6 +72,12 @@ Deno.test("Geo: types", () => {
   const trans_mpolygon = mpolygon.transform(t);
   assertEquals(trans_polygon.rings[0].points[0][0], 11);
   assertEquals(trans_mpolygon.coordinates[0][0][0][0], 11);
+  // 多多边形实例经 transform / ensure_* 后仍可继续链式调用
+  assertEquals(
+    trans_mpolygon.ensure_geojson_standard().ensure_esri_standard().polygons
+      .length,
+    2,
+  );
   assertEquals(mpolygon.polygons.length, 2);
   assertEquals(polygon.coordinates[0], ring.points);
 });
