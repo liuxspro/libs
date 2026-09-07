@@ -2,6 +2,8 @@ import { type CsvObjectsResult, parseCsvObjects } from "hucre/csv";
 
 export type Record = CsvObjectsResult["data"];
 
+// https://github.com/productdevbook/hucre
+
 /**
  * return {Record}
  * [{ "编号": 1, "经度": 117.51307, "纬度": 34.307738 },]

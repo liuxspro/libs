@@ -3,9 +3,14 @@
   "version": "0.0.1",
   "license": "MIT",
   "tasks": {},
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "publish": { "exclude": ["tests"] },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
-    "hucre": "npm:hucre@^1.1.0"
+    "hucre": "npm:hucre@^1.1.0",
+    "proj4": "npm:proj4@^2.22.0"
   },
   "lint": {
     "rules": {
