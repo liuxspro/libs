@@ -2,6 +2,8 @@ import { get_cgcs2000_wkt, type MultiPolygon } from "@liuxspro/geo";
 import { get_digits } from "@liuxspro/libs/utils";
 import { type MultiPolygonCoords, Shapefile } from "@liuxspro/shapefile";
 import { create_dbf, type Fields } from "./dbf.ts";
+import { get_polygon_from_csv_data } from "./utils.ts";
+import { parse_csv_content } from "./source/csv.ts";
 
 /**
  * 将 MultiPolygon 转换为 Shapefile
@@ -45,4 +47,20 @@ export async function create_boundary(
   shp.dbf = dbf;
   const zip = await shp.to_zip(filename);
   return zip;
+}
+
+/**
+ * 从 CSV 数据创建边界 Shapefile
+ * @param stage 阶段
+ * @param fields 字段
+ * @param csv CSV 数据
+ * @returns ZIP 文件
+ */
+export async function create_boundary_from_csv(
+  stage: "初步调查" | "详细调查",
+  fields: Fields,
+  csv: string,
+): Promise<Uint8Array> {
+  const polygon = get_polygon_from_csv_data(parse_csv_content(csv));
+  return await create_boundary(stage, fields, polygon);
 }
