@@ -23,5 +23,5 @@ export function get_polygon_from_csv_data(csv_data: Record): MultiPolygon {
     transformed_polygon = polygon.transform(correct_points_order);
   }
 
-  return transformed_polygon.to_multipolygon();
+  return transformed_polygon.ensure_esri_standard().to_multipolygon();
 }
