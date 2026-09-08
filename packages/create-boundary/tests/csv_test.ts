@@ -33,3 +33,17 @@ Deno.test("CSV: get_polygon_from_csv_data", function () {
     }
   }
 });
+
+Deno.test("CSV: parse csv string", function () {
+  const csv = `
+    编号,经度,纬度
+    1,117.513070,34.307738
+    2,117.513274,34.309178
+    3,117.514937,34.309049
+    4,117.514722,34.305380
+    5,117.510045,34.305752
+    6,117.510372,34.307986
+    `;
+  const polygon = get_polygon_from_csv_data(parse_csv_content(csv));
+  assertEquals(polygon.first_point, [39547228.48121143, 3797916.520456376]);
+});

@@ -1,7 +1,5 @@
-import { create_boundary } from "../src/boundary.ts";
-import { parse_csv_content } from "../src/source/csv.ts";
-import { get_polygon_from_csv_data } from "../src/utils.ts";
-import { assertEquals } from "jsr:@std/assert";
+import { create_boundary_from_csv } from "../src/boundary.ts";
+// import { assertEquals } from "jsr:@std/assert";
 
 const csv = `
   编号,经度,纬度
@@ -26,7 +24,5 @@ const record = {
 };
 
 Deno.test("create_boundary", async () => {
-  const polygon = get_polygon_from_csv_data(parse_csv_content(csv));
-  assertEquals(polygon.first_point, [39547228.48121143, 3797916.520456376]);
-  await create_boundary("初步调查", record, polygon);
+  await create_boundary_from_csv("初步调查", record, csv);
 });
