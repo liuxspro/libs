@@ -1,4 +1,4 @@
-import { create_boundary_from_csv } from "../src/boundary.ts";
+import { csv_to_shp } from "../src/boundary.ts";
 import { assertEquals } from "jsr:@std/assert";
 
 const csv = `
@@ -21,26 +21,13 @@ const csv2 = `
   6,117.513070,34.307738
   `;
 
-const record = {
-  "DKMC": "1",
-  "DKDM": "2",
-  "XZQMC": "3",
-  "XZQDM": "4",
-  "YDMJ": 129068.42,
-  "DH": 39,
-  "SCRQ": null,
-  "SCDW": null,
-  "BZ": null,
-};
-
 Deno.test("create_boundary", async () => {
-  const result = await create_boundary_from_csv("初步调查", record, csv);
-  assertEquals(result.DH, 39);
+  const result = await csv_to_shp(csv);
   assertEquals(result.YDMJ, 130255.77);
 });
 
 Deno.test("create_boundary from csv2(逆时针环)", async () => {
-  const result = await create_boundary_from_csv("初步调查", record, csv2);
+  const result = await csv_to_shp(csv2);
   assertEquals(result.DH, 39);
   assertEquals(result.YDMJ, 130255.77);
 });

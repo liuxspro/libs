@@ -12,12 +12,6 @@ interface PolygonInfo {
   shp: Shapefile;
 }
 
-interface BoundaryInfo {
-  YDMJ: number;
-  DH: number;
-  data: Uint8Array;
-}
-
 /**
  * 将 MultiPolygon 转换为 Shapefile
  * MultiPolygon 坐标为CGCS2000 投影坐标格式
@@ -47,41 +41,28 @@ export async function polygon_to_shp(
 }
 
 /**
- * 创建边界 Shapefile 并打包为 ZIP 文件
- * @param stage 阶段
- * @param fields 字段
- * @param multi_polygon 多多边形
- * @returns 边界信息
- */
-export async function create_boundary(
-  stage: "初步调查" | "详细调查",
-  fields: Fields,
-  multi_polygon: MultiPolygon,
-): Promise<BoundaryInfo> {
-  const filename = `${stage}${fields.DKDM}`;
-  const dbf = create_dbf(fields);
-  const { YDMJ, DH, shp } = await polygon_to_shp(multi_polygon);
-  shp.dbf = dbf;
-  const zip = await shp.to_zip(filename);
-  return {
-    YDMJ,
-    DH,
-    data: zip,
-  };
-}
-
-/**
  * 从 CSV 数据创建边界 Shapefile
- * @param stage 阶段
- * @param fields 字段
  * @param csv CSV 数据
  * @returns 边界信息
  */
-export async function create_boundary_from_csv(
+export async function csv_to_shp(csv: string): Promise<PolygonInfo> {
+  const polygon = get_polygon_from_csv_data(parse_csv_content(csv));
+  return await polygon_to_shp(polygon);
+}
+
+/**
+ * 从 Shapefile 创建边界 ZIP 文件
+ * @param stage 阶段
+ * @param fields 字段
+ * @param shp Shapefile
+ * @returns ZIP 文件
+ */
+export function make_boundary_zip(
   stage: "初步调查" | "详细调查",
   fields: Fields,
-  csv: string,
-): Promise<BoundaryInfo> {
-  const polygon = get_polygon_from_csv_data(parse_csv_content(csv));
-  return await create_boundary(stage, fields, polygon);
+  shp: Shapefile,
+): Promise<Uint8Array> {
+  const filename = `${stage}${fields.DKDM}`;
+  shp.dbf = create_dbf(fields);
+  return shp.to_zip(filename);
 }
