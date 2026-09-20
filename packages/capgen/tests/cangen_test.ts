@@ -1,12 +1,12 @@
 import { assertEquals } from "jsr:@std/assert@1";
 
+import { Capabilities, MapLayer } from "@liuxspro/capgen";
+
 import {
-  Capabilities,
   default_service,
-  MapLayer,
   mercator_bbox,
   web_mercator_quad,
-} from "@liuxspro/capgen";
+} from "@liuxspro/capgen/default";
 
 const debug_layer = new MapLayer(
   "测试瓦片 EPSG:3857",

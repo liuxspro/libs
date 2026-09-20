@@ -1,17 +1,20 @@
 import { assertEquals } from "jsr:@std/assert@1";
 import {
-  cgcs2000_quad,
-  cgcs2000_quad_dpi96,
   CRS84TileMatrixSet,
   CRS84TileMatrixSetDPI96,
   generate_tile_matrixs,
   TileMatrixSetDPI96,
+} from "@liuxspro/capgen";
+
+import {
+  cgcs2000_quad,
+  cgcs2000_quad_dpi96,
   web_mercator_quad,
   web_mercator_quad_dpi96,
   web_mercator_quad_hd,
   world_crs84_quad,
   world_crs84_quad_less,
-} from "@liuxspro/capgen";
+} from "@liuxspro/capgen/default";
 
 Deno.test("TileMatrixSet WebMercator", function () {
   const matrix = web_mercator_quad.clone();
