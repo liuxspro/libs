@@ -32,7 +32,7 @@ export const r2d = radius_to_degree;
  * @param mask 位掩码
  * @returns 如果位被设置则返回 true，否则返回 false
  */
-export function is_bit_set(bits: number, mask: number) {
+export function is_bit_set(bits: number, mask: number): boolean {
   return (bits & mask) !== 0;
 }
 
