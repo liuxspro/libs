@@ -1,0 +1,13 @@
+{
+  "name": "@liuxspro/tianditu",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": {
+    "./vts": "./src/vts/mod.ts",
+    "./tvt": "./src/tvt/mod.ts"
+  },
+  "publish": { "exclude": ["tests"] },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}

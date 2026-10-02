@@ -7,7 +7,8 @@
     "./packages/webp_to_png",
     "./packages/geo",
     "./packages/ol-north-arrow",
-    "./packages/create-boundary"
+    "./packages/create-boundary",
+    "./packages/tianditu"
   ],
   "lint": {
     "rules": {
