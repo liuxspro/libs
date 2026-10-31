@@ -40,3 +40,19 @@ export function get_polygon_from_kml_data(kml: string): MultiPolygon {
     .transform(correct_points_order)
     .ensure_esri_standard();
 }
+
+/**
+ * 合并多个多多边形
+ *
+ * 各多多边形的多边形按顺序拼接，面积与带号由调用方按合并结果重新计算。
+ * @param items 多多边形列表
+ * @returns 合并后的多多边形
+ * @throws 列表为空或没有任何多边形时抛出错误
+ */
+export function merge_multipolygons(items: MultiPolygon[]): MultiPolygon {
+  const polygons = items.flatMap((item) => item.polygons);
+  if (polygons.length === 0) {
+    throw new Error("没有可合并的多边形");
+  }
+  return new MultiPolygon(polygons);
+}

@@ -5,6 +5,7 @@ import { create_dbf, type Fields } from "./dbf.ts";
 import {
   get_polygon_from_csv_data,
   get_polygon_from_kml_data,
+  merge_multipolygons,
 } from "./utils.ts";
 import { parse_csv_content } from "./source/csv.ts";
 import { get_kml_from_kmz } from "./source/kml.ts";
@@ -31,8 +32,10 @@ export async function polygon_to_shp(
   }
   const dh = parseInt(x.toString().slice(0, 2));
   const wkt = get_cgcs2000_wkt(dh);
+  // 整个 MultiPolygon 作为一个要素写入：多个多边形是同一记录的不同 part，
+  // 否则 shp-write 会按多边形拆成多条记录，与只有一条记录的 DBF 错位。
   const shp = await Shapefile.from_polygon(
-    polygon.coordinates as MultiPolygonCoords,
+    [polygon.coordinates] as MultiPolygonCoords[],
     [],
     wkt,
     "UTF-8",
@@ -87,6 +90,35 @@ function to_binary(name: string, content: string | Uint8Array): Uint8Array {
 }
 
 /**
+ * 边界文件
+ *
+ * 文件名只需扩展名正确（不区分大小写），用于判断解析方式。
+ */
+export interface BoundaryFile {
+  name: string;
+  content: string | Uint8Array;
+}
+
+/** 解析单个文件为投影坐标多边形 */
+function polygon_from_file(file: BoundaryFile): MultiPolygon {
+  const ext = file.name.toLowerCase().split(".").pop() ?? "";
+  switch (ext) {
+    case "csv":
+      return get_polygon_from_csv_data(
+        parse_csv_content(to_text(file.content)),
+      );
+    case "kml":
+      return get_polygon_from_kml_data(to_text(file.content));
+    case "kmz":
+      return get_polygon_from_kml_data(
+        get_kml_from_kmz(to_binary(file.name, file.content)),
+      );
+    default:
+      throw new Error(`不支持的文件类型: ${file.name}`);
+  }
+}
+
+/**
  * 根据文件扩展名创建边界 Shapefile
  *
  * 支持 `.csv` / `.kml` / `.kmz`，CSV 与 KML 传入文本，KMZ 传入二进制。
@@ -100,17 +132,34 @@ export async function file_to_shp(
   name: string,
   content: string | Uint8Array,
 ): Promise<PolygonInfo> {
-  const ext = name.toLowerCase().split(".").pop() ?? "";
-  switch (ext) {
-    case "csv":
-      return await csv_to_shp(to_text(content));
-    case "kml":
-      return await kml_to_shp(to_text(content));
-    case "kmz":
-      return await kmz_to_shp(to_binary(name, content));
-    default:
-      throw new Error(`不支持的文件类型: ${name}`);
+  return await polygon_to_shp(polygon_from_file({ name, content }));
+}
+
+/**
+ * 从多个文件创建一个边界 Shapefile
+ *
+ * 所有文件的多边形会合并为一个 MultiPolygon；面积与带号按合并后的几何计算。
+ * 解析失败时会带上出错的文件名。
+ *
+ * @param files 边界文件列表（至少一个）
+ * @returns 边界信息
+ * @throws 文件列表为空，或任一文件解析失败时抛出错误
+ */
+export async function files_to_shp(
+  files: BoundaryFile[],
+): Promise<PolygonInfo> {
+  if (files.length === 0) {
+    throw new Error("请至少提供一个边界文件");
   }
+  const polygons = files.map((file) => {
+    try {
+      return polygon_from_file(file);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`解析 ${file.name} 失败: ${message}`);
+    }
+  });
+  return await polygon_to_shp(merge_multipolygons(polygons));
 }
 
 /**
