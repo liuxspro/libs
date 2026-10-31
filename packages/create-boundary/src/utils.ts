@@ -5,6 +5,9 @@ import { lonlat_to_cgcs } from "./transform.ts";
 import { parse_kml_content } from "./source/kml.ts";
 
 export function get_polygon_from_csv_data(csv_data: Record): MultiPolygon {
+  if (csv_data.length === 0) {
+    throw new Error("CSV 中没有坐标数据");
+  }
   const keys = Object.keys(csv_data[0]);
   const points = csv_data.map((item) => {
     return [item[keys[1]], item[keys[2]]] as Point;
