@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document id="root_doc">
+		<Schema name="shp" id="shp">
+			<SimpleField name="area" type="float"></SimpleField>
+		</Schema>
+		<Folder>
+			<name>shp</name>
+			<Placemark id="shp.1">
+				<Style>
+					<LineStyle>
+						<color>ff0000ff</color>
+					</LineStyle>
+					<PolyStyle>
+						<fill>0</fill>
+					</PolyStyle>
+				</Style>
+				<ExtendedData>
+					<SchemaData schemaUrl="#shp">
+						<SimpleData name="area">0.000</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<MultiGeometry>
+					<Polygon>
+						<outerBoundaryIs>
+							<LinearRing>
+								<coordinates>117.513070104062,34.3077376258462 117.513273953235,34.3091777307375
+									117.514936925878,34.3090492328407 117.514722348808,34.3053802393177
+									117.510044575366,34.3057524612496 117.510371806052,34.3079857687266
+									117.513070104062,34.3077376258462</coordinates>
+							</LinearRing>
+						</outerBoundaryIs>
+						<innerBoundaryIs>
+							<LinearRing>
+								<coordinates>117.512366278199,34.3072060045479 117.512284158749,34.3065528278454
+									117.513456015638,34.3064830684677 117.513526060163,34.3071263175625
+									117.512366278199,34.3072060045479</coordinates>
+							</LinearRing>
+						</innerBoundaryIs>
+					</Polygon>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

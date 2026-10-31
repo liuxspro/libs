@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="_point" id="_point">
+	<SimpleField name="timestamp" type="string"></SimpleField>
+	<SimpleField name="begin" type="string"></SimpleField>
+	<SimpleField name="end" type="string"></SimpleField>
+	<SimpleField name="altitudeMode" type="string"></SimpleField>
+	<SimpleField name="tessellate" type="int"></SimpleField>
+	<SimpleField name="extrude" type="int"></SimpleField>
+	<SimpleField name="visibility" type="int"></SimpleField>
+	<SimpleField name="drawOrder" type="int"></SimpleField>
+	<SimpleField name="icon" type="string"></SimpleField>
+	<SimpleField name="DKMC" type="string"></SimpleField>
+	<SimpleField name="DKDM" type="string"></SimpleField>
+	<SimpleField name="XZQDM" type="string"></SimpleField>
+	<SimpleField name="XZQMC" type="string"></SimpleField>
+	<SimpleField name="YDMJ" type="float"></SimpleField>
+	<SimpleField name="DH" type="float"></SimpleField>
+	<SimpleField name="SCRQ" type="string"></SimpleField>
+	<SimpleField name="SCDW" type="string"></SimpleField>
+	<SimpleField name="BZ" type="string"></SimpleField>
+	<SimpleField name="vertex_index" type="int"></SimpleField>
+	<SimpleField name="vertex_part" type="int"></SimpleField>
+	<SimpleField name="vertex_part_index" type="int"></SimpleField>
+	<SimpleField name="distance" type="float"></SimpleField>
+	<SimpleField name="angle" type="float"></SimpleField>
+</Schema>
+<Folder><name>_point</name>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">0</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">0</SimpleData>
+		<SimpleData name="distance">0.00000000000000</SimpleData>
+		<SimpleData name="angle">51.65551251744872</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.513070106506,34.3077376295764</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">1</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">1</SimpleData>
+		<SimpleData name="distance">0.00145446020637</SimpleData>
+		<SimpleData name="angle">51.23765143833350</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.513273954391,34.3091777339239</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">2</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">2</SimpleData>
+		<SimpleData name="distance">0.00312238714182</SimpleData>
+		<SimpleData name="angle">138.88281301114932</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.51493692398,34.3090492333089</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">3</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">3</SimpleData>
+		<SimpleData name="distance">0.00679765348976</SimpleData>
+		<SimpleData name="angle">228.94833525780868</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.514722347259,34.3053802362308</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">4</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">4</SimpleData>
+		<SimpleData name="distance">0.01149021214926</SimpleData>
+		<SimpleData name="angle">321.44269643739153</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.510044574737,34.3057524606326</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">5</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">5</SimpleData>
+		<SimpleData name="distance">0.01374736978024</SimpleData>
+		<SimpleData name="angle">51.79503526984746</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.510371804237,34.3079857723944</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<ExtendedData><SchemaData schemaUrl="#_point">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+		<SimpleData name="vertex_index">6</SimpleData>
+		<SimpleData name="vertex_part">0</SimpleData>
+		<SimpleData name="vertex_part_index">6</SimpleData>
+		<SimpleData name="distance">0.01645705795290</SimpleData>
+		<SimpleData name="angle">51.65551251744872</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>117.513070106506,34.3077376295764</coordinates></Point>
+  </Placemark>
+</Folder>
+</Document></kml>

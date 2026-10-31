@@ -1,8 +1,8 @@
 import type { Record } from "./source/csv.ts";
 import type { Point } from "@liuxspro/geo";
-import { correct_points_order, Polygon } from "@liuxspro/geo";
-import type { MultiPolygon } from "@liuxspro/geo";
+import { correct_points_order, MultiPolygon, Polygon } from "@liuxspro/geo";
 import { lonlat_to_cgcs } from "./transform.ts";
+import { parse_kml_content } from "./source/kml.ts";
 
 export function get_polygon_from_csv_data(csv_data: Record): MultiPolygon {
   const keys = Object.keys(csv_data[0]);
@@ -24,4 +24,19 @@ export function get_polygon_from_csv_data(csv_data: Record): MultiPolygon {
   }
 
   return transformed_polygon.ensure_esri_standard().to_multipolygon();
+}
+
+/**
+ * 从 KML 数据创建 CGCS2000 投影坐标的多边形
+ *
+ * KML 坐标为 WGS84 经纬度，统一转换为投影坐标后再生成 Shapefile。
+ * @param kml KML 文本
+ * @returns 投影坐标的多边形
+ */
+export function get_polygon_from_kml_data(kml: string): MultiPolygon {
+  const polygons = parse_kml_content(kml);
+  return new MultiPolygon(polygons)
+    .transform(lonlat_to_cgcs)
+    .transform(correct_points_order)
+    .ensure_esri_standard();
 }

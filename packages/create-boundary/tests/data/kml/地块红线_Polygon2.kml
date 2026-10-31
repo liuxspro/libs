@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+<Document>
+<Style id="2986031072">
+  <LineStyle>
+    <color>ff0000ff</color>
+    <width>1</width>
+  </LineStyle>
+  <PolyStyle>
+    <color>40ff0000</color>
+  </PolyStyle>
+</Style>
+<Placemark>
+  <name>未命名多边形</name>
+  <description/>
+  <styleUrl>#2986031072</styleUrl>
+  <Polygon>
+    <tessellate>1</tessellate>
+    <outerBoundaryIs>
+      <LinearRing>
+        <coordinates>
+          117.514979291418,34.3053351226235,0
+          117.518253312702,34.3051098788313,28.8286491052751
+          117.518371329899,34.3073092902236,29.4104110687837
+          117.517588124867,34.307384392076,28.078337176488
+          117.516096816654,34.3074809516005,27.8170331435341
+          117.515077577229,34.3075453246169,27.0912614127832
+          117.514979291418,34.3053351226235,0
+        </coordinates>
+      </LinearRing>
+    </outerBoundaryIs>
+  </Polygon>
+</Placemark>
+</Document>
+</kml>

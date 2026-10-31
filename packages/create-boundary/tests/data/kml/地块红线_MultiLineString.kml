@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="_line" id="_line">
+	<SimpleField name="timestamp" type="string"></SimpleField>
+	<SimpleField name="begin" type="string"></SimpleField>
+	<SimpleField name="end" type="string"></SimpleField>
+	<SimpleField name="altitudeMode" type="string"></SimpleField>
+	<SimpleField name="tessellate" type="int"></SimpleField>
+	<SimpleField name="extrude" type="int"></SimpleField>
+	<SimpleField name="visibility" type="int"></SimpleField>
+	<SimpleField name="drawOrder" type="int"></SimpleField>
+	<SimpleField name="icon" type="string"></SimpleField>
+	<SimpleField name="DKMC" type="string"></SimpleField>
+	<SimpleField name="DKDM" type="string"></SimpleField>
+	<SimpleField name="XZQDM" type="string"></SimpleField>
+	<SimpleField name="XZQMC" type="string"></SimpleField>
+	<SimpleField name="YDMJ" type="float"></SimpleField>
+	<SimpleField name="DH" type="float"></SimpleField>
+	<SimpleField name="SCRQ" type="string"></SimpleField>
+	<SimpleField name="SCDW" type="string"></SimpleField>
+	<SimpleField name="BZ" type="string"></SimpleField>
+</Schema>
+<Folder><name>_line</name>
+  <Placemark>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#_line">
+		<SimpleData name="tessellate">-1</SimpleData>
+		<SimpleData name="extrude">0</SimpleData>
+		<SimpleData name="visibility">-1</SimpleData>
+		<SimpleData name="DKMC">XX地块二</SimpleData>
+		<SimpleData name="DKDM">1</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">1</SimpleData>
+		<SimpleData name="YDMJ">1</SimpleData>
+		<SimpleData name="DH">1</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><LineString><coordinates>117.513070106506,34.3077376295764 117.513273954391,34.3091777339239 117.51493692398,34.3090492333089 117.514722347259,34.3053802362308 117.510044574737,34.3057524606326 117.510371804237,34.3079857723944 117.513070106506,34.3077376295764</coordinates></LineString></MultiGeometry>
+  </Placemark>
+</Folder>
+</Document></kml>

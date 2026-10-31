@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="test" id="test">
+	<SimpleField name="DKMC" type="string"></SimpleField>
+	<SimpleField name="DKDM" type="string"></SimpleField>
+	<SimpleField name="XZQDM" type="string"></SimpleField>
+	<SimpleField name="XZQMC" type="string"></SimpleField>
+	<SimpleField name="YDMJ" type="float"></SimpleField>
+	<SimpleField name="DH" type="float"></SimpleField>
+	<SimpleField name="SCRQ" type="string"></SimpleField>
+	<SimpleField name="SCDW" type="string"></SimpleField>
+	<SimpleField name="BZ" type="string"></SimpleField>
+</Schema>
+<Folder><name>test</name>
+  <Placemark id="test.1">
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#test">
+		<SimpleData name="DKMC">1</SimpleData>
+		<SimpleData name="DKDM">test</SimpleData>
+		<SimpleData name="XZQDM">1</SimpleData>
+		<SimpleData name="XZQMC">2</SimpleData>
+		<SimpleData name="YDMJ">130241.33</SimpleData>
+		<SimpleData name="DH">39</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>117.513070104062,34.3077376258462 117.513273953235,34.3091777307375 117.514936925878,34.3090492328407 117.514722348808,34.3053802393177 117.510044575366,34.3057524612496 117.510371806052,34.3079857687266 117.513070104062,34.3077376258462</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>
+  </Placemark>
+  <Placemark id="test.2">
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#test">
+		<SimpleData name="DKMC">地块二</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>117.515149775765,34.3090076533308 117.518414142065,34.3087602559029 117.518371514085,34.3073213015298 117.515073533805,34.3075875290185 117.515149775765,34.3090076533308</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>
+  </Placemark>
+</Folder>
+</Document></kml>

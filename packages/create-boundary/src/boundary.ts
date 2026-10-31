@@ -2,11 +2,15 @@ import { get_cgcs2000_wkt, type MultiPolygon } from "@liuxspro/geo";
 import { get_digits } from "@liuxspro/libs/utils";
 import { type MultiPolygonCoords, Shapefile } from "@liuxspro/shapefile";
 import { create_dbf, type Fields } from "./dbf.ts";
-import { get_polygon_from_csv_data } from "./utils.ts";
+import {
+  get_polygon_from_csv_data,
+  get_polygon_from_kml_data,
+} from "./utils.ts";
 import { parse_csv_content } from "./source/csv.ts";
+import { get_kml_from_kmz } from "./source/kml.ts";
 import { round_to } from "@liuxspro/libs/utils";
 
-interface PolygonInfo {
+export interface PolygonInfo {
   YDMJ: number;
   DH: number;
   shp: Shapefile;
@@ -48,6 +52,65 @@ export async function polygon_to_shp(
 export async function csv_to_shp(csv: string): Promise<PolygonInfo> {
   const polygon = get_polygon_from_csv_data(parse_csv_content(csv));
   return await polygon_to_shp(polygon);
+}
+
+/**
+ * 从 KML 数据创建边界 Shapefile
+ * @param kml KML 文本
+ * @returns 边界信息
+ */
+export async function kml_to_shp(kml: string): Promise<PolygonInfo> {
+  const polygon = get_polygon_from_kml_data(kml);
+  return await polygon_to_shp(polygon);
+}
+
+/**
+ * 从 KMZ 数据创建边界 Shapefile
+ * @param kmz KMZ 文件内容
+ * @returns 边界信息
+ */
+export async function kmz_to_shp(kmz: Uint8Array): Promise<PolygonInfo> {
+  return await kml_to_shp(get_kml_from_kmz(kmz));
+}
+
+function to_text(content: string | Uint8Array): string {
+  return typeof content === "string"
+    ? content
+    : new TextDecoder("utf-8").decode(content);
+}
+
+function to_binary(name: string, content: string | Uint8Array): Uint8Array {
+  if (typeof content === "string") {
+    throw new Error(`${name} 需要以二进制方式读取`);
+  }
+  return content;
+}
+
+/**
+ * 根据文件扩展名创建边界 Shapefile
+ *
+ * 支持 `.csv` / `.kml` / `.kmz`，CSV 与 KML 传入文本，KMZ 传入二进制。
+ *
+ * @param name 文件名（只需扩展名正确）
+ * @param content 文件内容
+ * @returns 边界信息
+ * @throws 文件类型不支持时抛出错误
+ */
+export async function file_to_shp(
+  name: string,
+  content: string | Uint8Array,
+): Promise<PolygonInfo> {
+  const ext = name.toLowerCase().split(".").pop() ?? "";
+  switch (ext) {
+    case "csv":
+      return await csv_to_shp(to_text(content));
+    case "kml":
+      return await kml_to_shp(to_text(content));
+    case "kmz":
+      return await kmz_to_shp(to_binary(name, content));
+    default:
+      throw new Error(`不支持的文件类型: ${name}`);
+  }
 }
 
 /**
