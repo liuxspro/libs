@@ -102,7 +102,7 @@ export const cgcs2000_quad: CRS84TileMatrixSet = new CRS84TileMatrixSet(
 export const cgcs2000_quad_less: CRS84LessTileMatrixSet =
   new CRS84LessTileMatrixSet(
     "CRS84 for the World",
-    "CGCS2000Quad",
+    "CGCS2000QuadLess",
     "EPSG:4490",
     "http://www.opengis.net/def/wkss/OGC/1.0/GoogleCRS84Quad",
     1,
